@@ -1,0 +1,46 @@
+{
+  "name": "react-native-land-blog",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A blog about React Native development",
+  "author": "React Native Land",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reactnativeland/react-native-land-blog.git"
+  },
+  "homepage": "https://reactnative.land/",
+  "keywords": [
+    "react",
+    "react-native",
+    "blog",
+    "mdx",
+    "tailwindcss"
+  ],
+  "dependencies": {
+    "@unhead/react": "^2.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0"
+  },
+  "devDependencies": {
+    "@mdx-js/react": "^3.1.1",
+    "@mdx-js/rollup": "^3.1.1",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
+    "highlight.js": "^11.11.1",
+    "postcss": "^8.5.6",
+    "rehype-highlight": "^7.0.2",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^5.2.0",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.0"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
