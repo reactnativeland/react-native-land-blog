@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#333" stroke-width="1"/>
+  <g transform="translate(50, 50)">
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="5" fill="#333"/>
+    
+    <!-- Electron orbits -->
+    <ellipse cx="0" cy="0" rx="35" ry="15" fill="none" stroke="#333" stroke-width="2.5" transform="rotate(0)"/>
+    <ellipse cx="0" cy="0" rx="35" ry="15" fill="none" stroke="#333" stroke-width="2.5" transform="rotate(60)"/>
+    <ellipse cx="0" cy="0" rx="35" ry="15" fill="none" stroke="#333" stroke-width="2.5" transform="rotate(120)"/>
+  </g>
+</svg>

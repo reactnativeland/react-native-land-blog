@@ -14,7 +14,7 @@ export default defineConfig({
         remarkMdxFrontmatter,
       ],
       rehypePlugins: [
-        rehypeHighlight,
+        [rehypeHighlight, { detect: true, ignoreMissing: true }],
       ],
     }),
   ],

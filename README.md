@@ -1,3 +1,3 @@
 # react-native-land-blog
 
-A blog about React Native development
+A blog about React Native development.
