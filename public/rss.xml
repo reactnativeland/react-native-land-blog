@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>React Native Land Blog</title>
+        <link>https://reactnative.land</link>
+        <description>A blog about React Native development</description>
+        <lastBuildDate>Wed, 07 Jan 2026 03:00:28 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Feed for Node.js</generator>
+        <language>en</language>
+        <image>
+            <title>React Native Land Blog</title>
+            <url>https://reactnative.land/logo.jpg</url>
+            <link>https://reactnative.land</link>
+        </image>
+        <copyright>© 2026 React Native Land. All rights reserved.</copyright>
+        <item>
+            <title><![CDATA[A blog]]></title>
+            <link>https://reactnative.land/posts/a-blog</link>
+            <guid isPermaLink="false">https://reactnative.land/posts/a-blog</guid>
+            <pubDate>Tue, 06 Jan 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Welcome to React Native Land!  I hope I can write about React Native development here!  _Stay tuned!_]]></description>
+            <content:encoded><![CDATA[Welcome to React Native Land!
+
+I hope I can write about React Native development here!
+
+_Stay tuned!_]]></content:encoded>
+            <author>hello@reactnative.land (React Native Land)</author>
+        </item>
+    </channel>
+</rss>

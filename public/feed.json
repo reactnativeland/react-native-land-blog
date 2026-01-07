@@ -1,0 +1,26 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "React Native Land Blog",
+    "home_page_url": "https://reactnative.land",
+    "feed_url": "https://reactnative.land/feed.json",
+    "description": "A blog about React Native development",
+    "icon": "https://reactnative.land/logo.jpg",
+    "author": {
+        "name": "React Native Land",
+        "url": "https://reactnative.land"
+    },
+    "items": [
+        {
+            "id": "https://reactnative.land/posts/a-blog",
+            "content_html": "Welcome to React Native Land!\n\nI hope I can write about React Native development here!\n\n_Stay tuned!_",
+            "url": "https://reactnative.land/posts/a-blog",
+            "title": "A blog",
+            "summary": "Welcome to React Native Land!  I hope I can write about React Native development here!  _Stay tuned!_",
+            "date_modified": "2026-01-06T00:00:00.000Z",
+            "author": {
+                "name": "React Native Land",
+                "url": "https://reactnative.land"
+            }
+        }
+    ]
+}

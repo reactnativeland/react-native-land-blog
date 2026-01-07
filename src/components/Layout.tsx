@@ -12,6 +12,14 @@ function Layout({ children }: LayoutProps) {
     meta: [
       { name: 'description', content: 'A blog about React Native development' },
     ],
+    link: [
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: 'RSS Feed',
+        href: '/rss.xml',
+      },
+    ],
   });
 
   return (
@@ -44,6 +52,14 @@ function Layout({ children }: LayoutProps) {
                 className="hover:text-gray-900 transition-colors"
               >
                 GitHub
+              </a>
+              <a
+                href="/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-900 transition-colors"
+              >
+                RSS
               </a>
             </div>
             <p className="text-xs">

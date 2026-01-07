@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://reactnative.land</id>
+    <title>React Native Land Blog</title>
+    <updated>2026-01-07T03:00:28.664Z</updated>
+    <generator>Feed for Node.js</generator>
+    <author>
+        <name>React Native Land</name>
+        <email>hello@reactnative.land</email>
+        <uri>https://reactnative.land</uri>
+    </author>
+    <link rel="alternate" href="https://reactnative.land"/>
+    <link rel="self" href="https://reactnative.land/atom.xml"/>
+    <subtitle>A blog about React Native development</subtitle>
+    <logo>https://reactnative.land/logo.jpg</logo>
+    <icon>https://reactnative.land/favicon.ico</icon>
+    <rights>© 2026 React Native Land. All rights reserved.</rights>
+    <entry>
+        <title type="html"><![CDATA[A blog]]></title>
+        <id>https://reactnative.land/posts/a-blog</id>
+        <link href="https://reactnative.land/posts/a-blog"/>
+        <updated>2026-01-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Welcome to React Native Land!  I hope I can write about React Native development here!  _Stay tuned!_]]></summary>
+        <content type="html"><![CDATA[Welcome to React Native Land!
+
+I hope I can write about React Native development here!
+
+_Stay tuned!_]]></content>
+        <author>
+            <name>React Native Land</name>
+            <email>hello@reactnative.land</email>
+            <uri>https://reactnative.land</uri>
+        </author>
+    </entry>
+</feed>

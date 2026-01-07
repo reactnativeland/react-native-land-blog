@@ -45,6 +45,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.23
         version: 10.4.23(postcss@8.5.6)
+      feed:
+        specifier: ^5.1.0
+        version: 5.1.0
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
@@ -816,6 +819,10 @@ packages:
       picomatch:
         optional: true
 
+  feed@5.1.0:
+    resolution: {integrity: sha512-qGNhgYygnefSkAHHrNHqC7p3R8J0/xQDS/cYUud8er/qD9EFGWyCdUDfULHTJQN1d3H3WprzVwMc9MfB4J50Wg==}
+    engines: {node: '>=20', pnpm: '>=10'}
+
   format@0.2.2:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
@@ -1205,6 +1212,9 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
+  sax@1.4.3:
+    resolution: {integrity: sha512-yqYn1JhPczigF94DMS+shiDMjDowYO6y9+wB/4WgO0Y19jWYk0lQ4tuG5KI7kj4FTp1wxPj5IFfcrz/s1c3jjQ==}
+
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
@@ -1344,6 +1354,10 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  xml-js@1.6.11:
+    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
+    hasBin: true
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
@@ -2020,6 +2034,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
+  feed@5.1.0:
+    dependencies:
+      xml-js: 1.6.11
+
   format@0.2.2: {}
 
   fraction.js@5.3.4: {}
@@ -2680,6 +2698,8 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.55.1
       fsevents: 2.3.3
 
+  sax@1.4.3: {}
+
   scheduler@0.27.0: {}
 
   semver@6.3.1: {}
@@ -2809,6 +2829,10 @@ snapshots:
       jiti: 2.6.1
       lightningcss: 1.30.2
       yaml: 2.8.2
+
+  xml-js@1.6.11:
+    dependencies:
+      sax: 1.4.3
 
   yallist@3.1.1: {}
 
