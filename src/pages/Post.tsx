@@ -34,7 +34,7 @@ function Post() {
 
   return (
     <article>
-      <h1 className="text-4xl font-bold text-gray-900 mb-2">{post.title}</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">{post.title}</h1>
       <time className="text-sm text-gray-500 block mb-8">{post.date}</time>
       <div className="prose prose-lg max-w-none">
         <PostContent />

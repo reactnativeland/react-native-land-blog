@@ -25,18 +25,18 @@ function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
-        <header className="border-b border-gray-200 py-4">
+        <header className="border-b border-gray-200 py-4 flex items-center justify-between">
           <Link
             to="/"
-            className="text-3xl font-semibold text-gray-900 hover:text-gray-700 flex items-center gap-3"
+            className="text-4xl font-semibold text-gray-900 hover:text-gray-700"
           >
-            <img
-              src="/logo.jpg"
-              alt="React Native Land"
-              className="w-12 h-12 rounded-full"
-            />
             React Native Land Blog
           </Link>
+          <img
+            src="/logo.jpg"
+            alt="React Native Land"
+            className="w-12 h-12 rounded-full"
+          />
         </header>
         <main className="py-12 flex-grow">{children}</main>
         <footer className="border-t border-gray-200 py-8 text-sm text-gray-500">
