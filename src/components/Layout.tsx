@@ -33,7 +33,7 @@ function Layout({ children }: LayoutProps) {
             React Native Land Blog
           </Link>
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="React Native Land"
             className="w-12 h-12 rounded-full"
           />
