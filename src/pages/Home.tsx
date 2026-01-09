@@ -9,17 +9,28 @@ interface Post {
   excerpt: string;
 }
 
-const posts: Post[] = [
-  {
-    slug: 'a-blog',
-    title: 'A blog',
-    date: '2026-01-06',
-    excerpt: 'A blog about React Native development.',
-  },
-];
+const postsData: Record<string, Post[]> = {
+  en: [
+    {
+      slug: 'a-blog',
+      title: 'A blog',
+      date: '2026-01-06',
+      excerpt: 'A blog about React Native development.',
+    },
+  ],
+  'pt-BR': [
+    {
+      slug: 'a-blog',
+      title: 'Um blog',
+      date: '2026-01-06',
+      excerpt: 'Um blog sobre desenvolvimento React Native.',
+    },
+  ],
+};
 
 function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const posts = postsData[i18n.language] || postsData.en;
 
   useHead({
     title: t('home.title'),
