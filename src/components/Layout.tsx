@@ -34,14 +34,7 @@ function Layout({ children }: LayoutProps) {
           >
             {t('header.title')}
           </Link>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <img
-              src="/logo.svg"
-              alt="React Native Land"
-              className="w-12 h-12 rounded-full"
-            />
-          </div>
+          <LanguageSwitcher />
         </header>
         <main className="py-12 flex-grow">{children}</main>
         <footer className="border-t border-gray-200 py-8 text-sm text-gray-500">
