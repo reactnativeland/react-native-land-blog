@@ -1,0 +1,25 @@
+{
+  "site": {
+    "title": "React Native Land Blog",
+    "description": "A blog about React Native development"
+  },
+  "header": {
+    "title": "React Native Land Blog"
+  },
+  "footer": {
+    "tagline": "Building better mobile apps, one article at a time.",
+    "github": "GitHub",
+    "rss": "RSS",
+    "copyright": "© {{year}} React Native Land. All rights reserved."
+  },
+  "home": {
+    "title": "React Native Land Blog"
+  },
+  "post": {
+    "backToHome": "← Back to Home"
+  },
+  "language": {
+    "en": "English",
+    "pt-BR": "Português (BR)"
+  }
+}

@@ -1,4 +1,5 @@
 import { useHead } from '@unhead/react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 interface Post {
@@ -18,8 +19,10 @@ const posts: Post[] = [
 ];
 
 function Home() {
+  const { t } = useTranslation();
+
   useHead({
-    title: 'React Native Land Blog',
+    title: t('home.title'),
   });
 
   return (

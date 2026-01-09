@@ -1,17 +1,19 @@
 import { useHead } from '@unhead/react';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 function Layout({ children }: LayoutProps) {
+  const { t } = useTranslation();
+
   useHead({
-    title: 'React Native Land Blog',
-    meta: [
-      { name: 'description', content: 'A blog about React Native development' },
-    ],
+    title: t('site.title'),
+    meta: [{ name: 'description', content: t('site.description') }],
     link: [
       {
         rel: 'alternate',
@@ -30,20 +32,21 @@ function Layout({ children }: LayoutProps) {
             to="/"
             className="text-4xl font-semibold text-gray-900 hover:text-gray-700"
           >
-            React Native Land Blog
+            {t('header.title')}
           </Link>
-          <img
-            src="/logo.svg"
-            alt="React Native Land"
-            className="w-12 h-12 rounded-full"
-          />
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <img
+              src="/logo.svg"
+              alt="React Native Land"
+              className="w-12 h-12 rounded-full"
+            />
+          </div>
         </header>
         <main className="py-12 flex-grow">{children}</main>
         <footer className="border-t border-gray-200 py-8 text-sm text-gray-500">
           <div className="flex flex-col items-center gap-4">
-            <p className="text-gray-600">
-              Building better mobile apps, one article at a time.
-            </p>
+            <p className="text-gray-600">{t('footer.tagline')}</p>
             <div className="flex gap-6">
               <a
                 href="https://github.com/reactnativeland"
@@ -51,7 +54,7 @@ function Layout({ children }: LayoutProps) {
                 rel="noopener noreferrer"
                 className="hover:text-gray-900 transition-colors"
               >
-                GitHub
+                {t('footer.github')}
               </a>
               <a
                 href="/rss.xml"
@@ -59,12 +62,11 @@ function Layout({ children }: LayoutProps) {
                 rel="noopener noreferrer"
                 className="hover:text-gray-900 transition-colors"
               >
-                RSS
+                {t('footer.rss')}
               </a>
             </div>
             <p className="text-xs">
-              © {new Date().getFullYear()} React Native Land. All rights
-              reserved.
+              {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
           </div>
         </footer>

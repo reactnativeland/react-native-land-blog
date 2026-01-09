@@ -1,34 +1,40 @@
 import { useHead } from '@unhead/react';
-import { ComponentType } from 'react';
+import { ComponentType, lazy, Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import ABlog from '../posts/01-a-blog.mdx';
 
 interface PostData {
   title: string;
   date: string;
-  component: ComponentType;
+  fileName: string;
 }
 
-const posts: Record<string, PostData> = {
+const postsMetadata: Record<string, PostData> = {
   'a-blog': {
     title: 'A blog',
     date: '2026-01-06',
-    component: ABlog,
+    fileName: '01-a-blog',
   },
+};
+
+const loadPost = (fileName: string, lang: string): ComponentType => {
+  const langSuffix = lang === 'pt-BR' ? 'pt-br' : 'en';
+  return lazy(() => import(`../posts/${fileName}.${langSuffix}.mdx`));
 };
 
 function Post() {
   const { slug } = useParams<{ slug: string }>();
-  const post = slug ? posts[slug] : undefined;
+  const { t, i18n } = useTranslation();
+  const post = slug ? postsMetadata[slug] : undefined;
 
-  if (!post) {
+  if (!post || !slug) {
     return <div>Post not found</div>;
   }
 
-  const PostContent = post.component;
+  const PostContent = loadPost(post.fileName, i18n.language);
 
   useHead({
-    title: `${post.title} - React Native Land Blog`,
+    title: `${post.title} - ${t('site.title')}`,
     meta: [{ name: 'description', content: `Read about ${post.title}` }],
   });
 
@@ -39,7 +45,9 @@ function Post() {
       </h1>
       <time className="text-sm text-gray-500 block mb-8">{post.date}</time>
       <div className="prose max-w-none text-gray-600">
-        <PostContent />
+        <Suspense fallback={<div>Loading...</div>}>
+          <PostContent />
+        </Suspense>
       </div>
     </article>
   );
