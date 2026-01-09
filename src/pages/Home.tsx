@@ -31,8 +31,10 @@ function Home() {
               <h2 className="text-2xl font-semibold text-gray-900 group-hover:text-gray-700 mb-2">
                 {post.title}
               </h2>
-              <time className="text-sm text-gray-500">{post.date}</time>
-              <p className="mt-3 text-gray-600">{post.excerpt}</p>
+              <time className="text-sm text-gray-500 block mb-8">
+                {post.date}
+              </time>
+              <p className="text-gray-600">{post.excerpt}</p>
             </Link>
           </article>
         ))}
