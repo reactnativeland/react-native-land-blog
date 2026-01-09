@@ -1,6 +1,8 @@
 import { useHead } from '@unhead/react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import postsEn from '../locales/posts/en.json';
+import postsPtBr from '../locales/posts/pt-br.json';
 
 interface Post {
   slug: string;
@@ -10,22 +12,8 @@ interface Post {
 }
 
 const postsData: Record<string, Post[]> = {
-  en: [
-    {
-      slug: 'a-blog',
-      title: 'A blog',
-      date: '2026-01-06',
-      excerpt: 'A blog about React Native development.',
-    },
-  ],
-  'pt-BR': [
-    {
-      slug: 'a-blog',
-      title: 'Um blog',
-      date: '2026-01-06',
-      excerpt: 'Um blog sobre desenvolvimento React Native.',
-    },
-  ],
+  en: postsEn,
+  'pt-BR': postsPtBr,
 };
 
 function Home() {
