@@ -140,8 +140,10 @@ function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col transition-colors">
-      <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
-        <header className="border-b border-gray-200 dark:border-gray-700 py-4 flex items-center justify-between">
+      <header
+        className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 supports-[backdrop-filter]:dark:bg-gray-900/70 py-4 w-full"
+      >
+        <div className="max-w-4xl mx-auto px-6 w-full flex items-center justify-between">
           <Link
             to="/"
             className="text-4xl font-semibold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 mr-6"
@@ -152,7 +154,9 @@ function Layout({ children }: LayoutProps) {
             <ThemeToggle />
             <LanguageSwitcher />
           </div>
-        </header>
+        </div>
+      </header>
+      <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
         <main className="py-12 flex-grow flex flex-col">{children}</main>
         <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-4">
