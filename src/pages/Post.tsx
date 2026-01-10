@@ -9,11 +9,20 @@ interface PostData {
   fileName: string;
 }
 
-const postsMetadata: Record<string, PostData> = {
-  'a-blog': {
-    title: 'A blog',
-    date: '2026-01-06',
-    fileName: '01-a-blog',
+const postsMetadata: Record<string, Record<string, PostData>> = {
+  en: {
+    'a-blog': {
+      title: 'A blog',
+      date: '2026-01-06',
+      fileName: '01-a-blog',
+    },
+  },
+  'pt-BR': {
+    'a-blog': {
+      title: 'Um blog',
+      date: '2026-01-06',
+      fileName: '01-a-blog',
+    },
   },
 };
 
@@ -25,7 +34,8 @@ const loadPost = (fileName: string, lang: string): ComponentType => {
 function Post() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const post = slug ? postsMetadata[slug] : undefined;
+  const currentLangPosts = postsMetadata[i18n.language] || postsMetadata.en;
+  const post = slug ? currentLangPosts[slug] : undefined;
 
   if (!post || !slug) {
     return <div>Post not found</div>;
