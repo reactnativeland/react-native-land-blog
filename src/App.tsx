@@ -1,17 +1,21 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import Post from './pages/Post';
+
+const Home = lazy(() => import('./pages/Home'));
+const Post = lazy(() => import('./pages/Post'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/posts/:slug" element={<Post />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div className="animate-pulse">Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts/:slug" element={<Post />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </Layout>
   );
 }
