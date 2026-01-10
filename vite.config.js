@@ -1,6 +1,6 @@
 import mdx from '@mdx-js/rollup';
+import rehypeShiki from '@shikijs/rehype';
 import react from '@vitejs/plugin-react';
-import rehypeHighlight from 'rehype-highlight';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { defineConfig } from 'vite';
@@ -26,7 +26,18 @@ export default defineConfig({
     react(),
     mdx({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-      rehypePlugins: [[rehypeHighlight, { detect: true, ignoreMissing: true }]],
+      rehypePlugins: [
+        [
+          rehypeShiki,
+          {
+            themes: {
+              light: 'github-light',
+              dark: 'github-dark',
+            },
+            defaultColor: 'light',
+          },
+        ],
+      ],
     }),
   ],
 });

@@ -46,77 +46,11 @@ article > div {
 
 /* Light gray code blocks */
 pre {
-  background: #f6f8fa;
   border-radius: 6px;
-  padding: 16px;
   overflow-x: auto;
 }
 
-pre code.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 16px;
-  background: #f6f8fa;
-  color: #24292f;
-  border-radius: 6px;
+code {
   font-size: 14px;
   line-height: 1.45;
-}
-
-code.hljs {
-  padding: 0.2em 0.4em;
-  background: rgba(175, 184, 193, 0.2);
-  color: #24292f;
-  border-radius: 3px;
-  font-size: 85%;
-}
-
-/* Syntax highlighting colors for light background */
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-title,
-.hljs-section,
-.hljs-doctag,
-.hljs-type,
-.hljs-name,
-.hljs-strong {
-  color: #cf222e;
-}
-
-.hljs-string,
-.hljs-title,
-.hljs-section,
-.hljs-built_in,
-.hljs-literal,
-.hljs-type,
-.hljs-addition,
-.hljs-template-variable,
-.hljs-link {
-  color: #0a3069;
-}
-
-.hljs-comment,
-.hljs-quote,
-.hljs-deletion,
-.hljs-meta {
-  color: #6e7781;
-}
-
-.hljs-function,
-.hljs-attr {
-  color: #8250df;
-}
-
-.hljs-number {
-  color: #0550ae;
-}
-
-.hljs-tag,
-.hljs-name {
-  color: #116329;
-}
-
-.hljs-attribute {
-  color: #953800;
 }
