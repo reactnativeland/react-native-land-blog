@@ -8,6 +8,10 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/',
   build: {
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 500,
+    sourcemap: process.env.NODE_ENV === 'development',
     rollupOptions: {
       output: {
         manualChunks: {

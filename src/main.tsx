@@ -7,12 +7,6 @@ import App from './App';
 import './i18n';
 import './index.css';
 
-import '@fontsource/outfit/400.css';
-import '@fontsource/outfit/500.css';
-import '@fontsource/outfit/600.css';
-import '@fontsource/outfit/700.css';
-import '@fontsource/outfit/800.css';
-
 const head = createHead();
 
 createRoot(document.getElementById('root')!).render(
