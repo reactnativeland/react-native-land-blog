@@ -2,6 +2,8 @@ import { useHead } from '@unhead/react';
 import { ComponentType, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import postsEn from '../locales/posts/en.json';
+import postsPtBr from '../locales/posts/pt-br.json';
 
 interface PostData {
   title: string;
@@ -9,21 +11,20 @@ interface PostData {
   fileName: string;
 }
 
+const createPostsMap = (posts: typeof postsEn): Record<string, PostData> => {
+  return posts.reduce((acc, post) => {
+    acc[post.slug] = {
+      title: post.title,
+      date: post.date,
+      fileName: post.fileName,
+    };
+    return acc;
+  }, {} as Record<string, PostData>);
+};
+
 const postsMetadata: Record<string, Record<string, PostData>> = {
-  en: {
-    'a-blog': {
-      title: 'A blog',
-      date: '2026-01-06',
-      fileName: '01-a-blog',
-    },
-  },
-  'pt-BR': {
-    'a-blog': {
-      title: 'Um blog',
-      date: '2026-01-06',
-      fileName: '01-a-blog',
-    },
-  },
+  en: createPostsMap(postsEn),
+  'pt-BR': createPostsMap(postsPtBr),
 };
 
 const loadPost = (fileName: string, lang: string): ComponentType => {

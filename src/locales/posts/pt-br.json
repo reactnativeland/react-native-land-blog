@@ -3,6 +3,7 @@
     "slug": "a-blog",
     "title": "Um blog",
     "date": "2026-01-06",
-    "excerpt": "Um blog sobre desenvolvimento React Native."
+    "excerpt": "Um blog sobre desenvolvimento React Native.",
+    "fileName": "01-a-blog"
   }
 ]
