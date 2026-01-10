@@ -48,7 +48,7 @@
   "packageManager": "pnpm@10.27.0",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-rss.js && vite build",
+    "build": "node scripts/generate-rss.js && node scripts/generate-sitemap.js && vite build",
     "preview": "vite preview"
   }
 }
