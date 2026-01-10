@@ -16,13 +16,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ensure text is visible during font loading */
-@font-face {
-  font-family: 'Outfit';
-  font-display: swap;
-  src: local('Outfit');
-}
-
 /* Reset default margins for consistent alignment */
 * {
   box-sizing: border-box;
