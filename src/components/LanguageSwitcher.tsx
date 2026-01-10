@@ -8,7 +8,7 @@ function LanguageSwitcher() {
     i18n.changeLanguage(newLang);
   };
 
-  const currentLangLabel = i18n.language === 'en' ? 'EN' : 'BR';
+  const currentLangLabel = i18n.language === 'en' ? 'EN' : 'PT';
 
   return (
     <button
