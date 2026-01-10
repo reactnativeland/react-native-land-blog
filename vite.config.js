@@ -30,7 +30,10 @@ export default defineConfig({
         [
           rehypeShiki,
           {
-            theme: 'github-light',
+            themes: {
+              light: 'github-light',
+              dark: 'github-dark',
+            },
             transformers: [
               {
                 name: 'add-file-title',
