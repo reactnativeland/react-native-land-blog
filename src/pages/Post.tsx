@@ -214,7 +214,7 @@ function Post() {
   );
 
   return (
-    <article itemScope itemType="https://schema.org/BlogPosting">
+    <article itemScope itemType="https://schema.org/BlogPosting" className="min-h-[50vh]">
       <header>
         <h1 itemProp="headline" className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
           {post.title}

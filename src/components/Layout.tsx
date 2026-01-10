@@ -153,7 +153,7 @@ function Layout({ children }: LayoutProps) {
         </div>
       </header>
       <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
-        <main className="py-12 flex-grow flex flex-col">{children}</main>
+        <main className="py-12 flex-grow flex flex-col min-h-[60vh]">{children}</main>
       </div>
       <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400 w-full">
         <div className="max-w-4xl mx-auto px-6 w-full">

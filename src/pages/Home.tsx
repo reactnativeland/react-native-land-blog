@@ -93,7 +93,7 @@ function Home() {
   );
 
   return (
-    <div>
+    <div className="min-h-[50vh]">
       <div className="space-y-8">
         {posts.map((post) => (
           <article
