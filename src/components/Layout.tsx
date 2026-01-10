@@ -2,6 +2,7 @@ import { useHead } from '@unhead/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import { getLanguageUtils } from '../utils/language';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 
@@ -15,12 +16,7 @@ function Layout({ children }: LayoutProps) {
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  // Get current language code for HTML lang attribute
-  const htmlLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en';
-
-  // Get alternate language code
-  const alternateLang = i18n.language === 'pt-BR' ? 'en' : 'pt-BR';
-  const alternateLangCode = alternateLang === 'pt-BR' ? 'pt-BR' : 'en';
+  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
 
   // Build current URL
   const currentUrl = `${SITE_URL}${location.pathname}`;
@@ -30,8 +26,8 @@ function Layout({ children }: LayoutProps) {
 
   // Set HTML lang attribute
   useEffect(() => {
-    document.documentElement.lang = htmlLang;
-  }, [htmlLang]);
+    document.documentElement.lang = langUtils.htmlLang;
+  }, [langUtils.htmlLang]);
 
   // Generate structured data
   const structuredData = useMemo(() => {
@@ -85,8 +81,8 @@ function Layout({ children }: LayoutProps) {
           { property: 'og:description', content: t('site.description') },
           { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
           { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: htmlLang === 'pt-BR' ? 'pt_BR' : 'en_US' },
-          { property: 'og:locale:alternate', content: htmlLang === 'pt-BR' ? 'en_US' : 'pt_BR' },
+          { property: 'og:locale', content: langUtils.ogLocale },
+          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
           // Twitter Card
           { name: 'twitter:card', content: 'summary_large_image' },
           { name: 'twitter:url', content: currentUrl },
@@ -108,12 +104,12 @@ function Layout({ children }: LayoutProps) {
           },
           {
             rel: 'alternate',
-            hreflang: htmlLang,
+            hreflang: langUtils.htmlLang,
             href: currentUrl,
           },
           {
             rel: 'alternate',
-            hreflang: alternateLangCode,
+            hreflang: langUtils.alternateHtmlLang,
             href: alternateUrl,
           },
           {
@@ -134,7 +130,7 @@ function Layout({ children }: LayoutProps) {
           })),
         };
       },
-      [t, currentUrl, htmlLang, alternateLangCode, alternateUrl, structuredData, location.pathname]
+      [t, currentUrl, langUtils, alternateUrl, structuredData, location.pathname]
     )
   );
 

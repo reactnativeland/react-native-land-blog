@@ -1,10 +1,11 @@
 import { useHead } from '@unhead/react';
 import { ComponentType, lazy, Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 import { formatDate } from '../utils/formatDate';
+import { getLanguageUtils } from '../utils/language';
 
 interface PostData {
   title: string;
@@ -45,19 +46,21 @@ const loadPost = (fileName: string, lang: string): ComponentType => {
   return postComponentCache.get(cacheKey)!;
 };
 
+
 function Post() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const location = useLocation();
 
   const currentLangPosts = useMemo(
     () => postsMetadata[i18n.language] || postsMetadata.en,
     [i18n.language]
   );
 
+  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
+
   const alternateLangPosts = useMemo(
-    () => postsMetadata[i18n.language === 'pt-BR' ? 'en' : 'pt-BR'],
-    [i18n.language]
+    () => postsMetadata[langUtils.alternate],
+    [langUtils.alternate]
   );
 
   const post = useMemo(
@@ -69,6 +72,7 @@ function Post() {
     () => (slug ? alternateLangPosts[slug] : undefined),
     [slug, alternateLangPosts]
   );
+
 
   if (!post || !slug) {
     return (
@@ -96,12 +100,9 @@ function Post() {
 
   // Build URLs
   const postUrl = `${SITE_URL}/posts/${slug}`;
-  const htmlLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en';
-  const alternateLang = i18n.language === 'pt-BR' ? 'en' : 'pt-BR';
-  const alternateLangCode = alternateLang === 'pt-BR' ? 'pt-BR' : 'en';
 
   // Create rich description
-  const metaDescription = post.excerpt 
+  const metaDescription = post.excerpt
     ? `${post.excerpt} | React Native development blog`
     : `Read about ${post.title} on React Native Land Blog. Learn React Native, mobile app development, and best practices.`;
 
@@ -154,8 +155,8 @@ function Post() {
           { property: 'og:description', content: metaDescription },
           { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
           { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: htmlLang === 'pt-BR' ? 'pt_BR' : 'en_US' },
-          { property: 'og:locale:alternate', content: htmlLang === 'pt-BR' ? 'en_US' : 'pt_BR' },
+          { property: 'og:locale', content: langUtils.ogLocale },
+          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
           // Article specific
           { property: 'article:published_time', content: publishedDate },
           { property: 'article:modified_time', content: publishedDate },
@@ -176,7 +177,7 @@ function Post() {
           },
           {
             rel: 'alternate',
-            hreflang: htmlLang,
+            hreflang: langUtils.htmlLang,
             href: postUrl,
           },
         ];
@@ -185,14 +186,14 @@ function Post() {
         if (alternatePost) {
           linkTags.push({
             rel: 'alternate',
-            hreflang: alternateLangCode,
+            hreflang: langUtils.alternateHtmlLang,
             href: postUrl, // Same URL, different language content
           });
         }
 
         linkTags.push({
           rel: 'alternate',
-          hreflang: 'x-default',
+          hreflang: 'x-default' as any,
           href: postUrl,
         });
 
@@ -208,7 +209,7 @@ function Post() {
           ],
         };
       },
-      [post.title, metaDescription, postUrl, htmlLang, alternateLangCode, publishedDate, t, articleStructuredData, alternatePost]
+      [post.title, metaDescription, postUrl, langUtils, publishedDate, t, articleStructuredData, alternatePost]
     )
   );
 
@@ -218,16 +219,16 @@ function Post() {
         <h1 itemProp="headline" className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
           {post.title}
         </h1>
-        <time 
-          itemProp="datePublished" 
+        <time
+          itemProp="datePublished"
           dateTime={publishedDate}
           className="text-sm text-gray-500 dark:text-gray-400 block mb-8"
         >
           {formatDate(post.date, i18n.language)}
         </time>
       </header>
-      <div 
-        itemProp="articleBody" 
+      <div
+        itemProp="articleBody"
         className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300"
       >
         <Suspense fallback={<div>{t('loading')}</div>}>

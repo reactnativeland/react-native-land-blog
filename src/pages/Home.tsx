@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 import { formatDateShort } from '../utils/formatDate';
+import { getLanguageUtils } from '../utils/language';
 
 interface Post {
   slug: string;
@@ -29,9 +30,7 @@ function Home() {
     [i18n.language]
   );
 
-  const htmlLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en';
-  const alternateLang = i18n.language === 'pt-BR' ? 'en' : 'pt-BR';
-  const alternateLangCode = alternateLang === 'pt-BR' ? 'pt-BR' : 'en';
+  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
   const currentUrl = `${SITE_URL}${location.pathname}`;
 
   // Enhanced description with keywords
@@ -51,8 +50,8 @@ function Home() {
           { property: 'og:description', content: metaDescription },
           { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
           { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: htmlLang === 'pt-BR' ? 'pt_BR' : 'en_US' },
-          { property: 'og:locale:alternate', content: htmlLang === 'pt-BR' ? 'en_US' : 'pt_BR' },
+          { property: 'og:locale', content: langUtils.ogLocale },
+          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
           // Twitter Card
           { name: 'twitter:card', content: 'summary_large_image' },
           { name: 'twitter:url', content: currentUrl },
@@ -68,12 +67,12 @@ function Home() {
           },
           {
             rel: 'alternate',
-            hreflang: htmlLang,
+            hreflang: langUtils.htmlLang,
             href: currentUrl,
           },
           {
             rel: 'alternate',
-            hreflang: alternateLangCode,
+            hreflang: langUtils.alternateHtmlLang,
             href: currentUrl,
           },
           {
@@ -89,7 +88,7 @@ function Home() {
           link: linkTags,
         };
       },
-      [t, metaDescription, currentUrl, htmlLang, alternateLangCode]
+      [t, metaDescription, currentUrl, langUtils]
     )
   );
 
@@ -104,20 +103,20 @@ function Home() {
             className="border-b border-gray-200 dark:border-gray-700 pb-8"
           >
             <Link to={`/posts/${post.slug}`} className="block group">
-              <h2 
+              <h2
                 itemProp="headline"
                 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-gray-700 dark:group-hover:text-gray-300 mb-2"
               >
                 {post.title}
               </h2>
-              <time 
+              <time
                 itemProp="datePublished"
                 dateTime={new Date(post.date).toISOString()}
                 className="text-sm text-gray-500 dark:text-gray-400 block mb-8"
               >
                 {formatDateShort(post.date, i18n.language)}
               </time>
-              <p 
+              <p
                 itemProp="description"
                 className="text-gray-600 dark:text-gray-400"
               >
