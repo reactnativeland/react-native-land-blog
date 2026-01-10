@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
+import { formatDate } from '../utils/formatDate';
 
 interface PostData {
   title: string;
@@ -69,7 +70,9 @@ function Post() {
       <h1 className="text-2xl font-semibold text-gray-900 mb-2">
         {post.title}
       </h1>
-      <time className="text-sm text-gray-500 block mb-8">{post.date}</time>
+      <time className="text-sm text-gray-500 block mb-8">
+        {formatDate(post.date, i18n.language)}
+      </time>
       <div className="prose max-w-none text-gray-600">
         <Suspense fallback={<div>Loading...</div>}>
           <PostContent />
