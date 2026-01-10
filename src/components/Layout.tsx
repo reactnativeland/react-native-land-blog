@@ -30,7 +30,7 @@ function Layout({ children }: LayoutProps) {
         <header className="border-b border-gray-200 py-4 flex items-center justify-between">
           <Link
             to="/"
-            className="text-4xl font-semibold text-gray-900 hover:text-gray-700"
+            className="text-4xl font-semibold text-gray-900 hover:text-gray-700 mr-6"
           >
             {t('header.title')}
           </Link>
