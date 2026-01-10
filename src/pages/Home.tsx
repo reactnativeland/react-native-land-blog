@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
-import { formatDate } from '../utils/formatDate';
+import { formatDateShort } from '../utils/formatDate';
 
 interface Post {
   slug: string;
@@ -35,7 +35,7 @@ function Home() {
                 {post.title}
               </h2>
               <time className="text-sm text-gray-500 block mb-8">
-                {formatDate(post.date, i18n.language)}
+                {formatDateShort(post.date, i18n.language)}
               </time>
               <p className="text-gray-600">{post.excerpt}</p>
             </Link>
