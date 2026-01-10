@@ -85,15 +85,8 @@ pre[data-file]::before {
 }
 
 /* File header for code blocks - Dark mode */
-.dark pre[data-file]::before {
+html.dark pre[data-file]::before {
   background: #21262d;
-  color: #8b949e;
-  border-bottom-color: #30363d;
-}
-
-/* Dark theme file header (syntax highlighting) */
-pre[class*='github-dark'][data-file]::before {
-  background: #161b22;
   color: #8b949e;
   border-bottom-color: #30363d;
 }
