@@ -11,11 +11,23 @@
     },
     "items": [
         {
-            "id": "https://reactnative.land/posts/a-blog",
+            "id": "https://reactnative.land/posts/a-blog.en",
             "content_html": "Welcome to React Native Land!\n\nI hope I can write about React Native development here!\n\n_Stay tuned!_",
-            "url": "https://reactnative.land/posts/a-blog",
+            "url": "https://reactnative.land/posts/a-blog.en",
             "title": "A blog",
             "summary": "Welcome to React Native Land!  I hope I can write about React Native development here!  _Stay tuned!_",
+            "date_modified": "2026-01-06T00:00:00.000Z",
+            "author": {
+                "name": "React Native Land",
+                "url": "https://reactnative.land"
+            }
+        },
+        {
+            "id": "https://reactnative.land/posts/a-blog.pt-br",
+            "content_html": "Bem-vindo ao React Native Land!\n\nEspero poder escrever sobre React Native aqui!\n\n_Fique ligado!_",
+            "url": "https://reactnative.land/posts/a-blog.pt-br",
+            "title": "Um blog",
+            "summary": "Bem-vindo ao React Native Land!  Espero poder escrever sobre React Native aqui!  _Fique ligado!_",
             "date_modified": "2026-01-06T00:00:00.000Z",
             "author": {
                 "name": "React Native Land",

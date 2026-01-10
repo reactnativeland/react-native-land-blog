@@ -4,7 +4,7 @@
         <title>React Native Land Blog</title>
         <link>https://reactnative.land</link>
         <description>A blog about React Native development</description>
-        <lastBuildDate>Thu, 08 Jan 2026 23:30:01 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 10 Jan 2026 00:23:06 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en</language>
@@ -16,8 +16,8 @@
         <copyright>© 2026 React Native Land. All rights reserved.</copyright>
         <item>
             <title><![CDATA[A blog]]></title>
-            <link>https://reactnative.land/posts/a-blog</link>
-            <guid isPermaLink="false">https://reactnative.land/posts/a-blog</guid>
+            <link>https://reactnative.land/posts/a-blog.en</link>
+            <guid isPermaLink="false">https://reactnative.land/posts/a-blog.en</guid>
             <pubDate>Tue, 06 Jan 2026 00:00:00 GMT</pubDate>
             <description><![CDATA[Welcome to React Native Land!  I hope I can write about React Native development here!  _Stay tuned!_]]></description>
             <content:encoded><![CDATA[Welcome to React Native Land!
@@ -25,6 +25,19 @@
 I hope I can write about React Native development here!
 
 _Stay tuned!_]]></content:encoded>
+            <author>hello@reactnative.land (React Native Land)</author>
+        </item>
+        <item>
+            <title><![CDATA[Um blog]]></title>
+            <link>https://reactnative.land/posts/a-blog.pt-br</link>
+            <guid isPermaLink="false">https://reactnative.land/posts/a-blog.pt-br</guid>
+            <pubDate>Tue, 06 Jan 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Bem-vindo ao React Native Land!  Espero poder escrever sobre React Native aqui!  _Fique ligado!_]]></description>
+            <content:encoded><![CDATA[Bem-vindo ao React Native Land!
+
+Espero poder escrever sobre React Native aqui!
+
+_Fique ligado!_]]></content:encoded>
             <author>hello@reactnative.land (React Native Land)</author>
         </item>
     </channel>
