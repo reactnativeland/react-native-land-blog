@@ -36,7 +36,7 @@ function Layout({ children }: LayoutProps) {
           </Link>
           <LanguageSwitcher />
         </header>
-        <main className="py-12 flex-grow">{children}</main>
+        <main className="py-12 flex-grow flex flex-col">{children}</main>
         <footer className="border-t border-gray-200 py-8 text-sm text-gray-500">
           <div className="flex flex-col items-center gap-4">
             <p className="text-gray-600">{t('footer.tagline')}</p>

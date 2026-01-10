@@ -40,7 +40,7 @@ function Post() {
 
   if (!post || !slug) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-16rem)]">
+      <div className="flex flex-col items-center justify-center flex-1">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           {t('post.notFound.title')}
         </h1>
