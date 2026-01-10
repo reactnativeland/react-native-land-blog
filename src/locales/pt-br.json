@@ -31,5 +31,6 @@
     "title": "Página não encontrada",
     "message": "Desculpe, não conseguimos encontrar a página que você está procurando.",
     "backButton": "Voltar para o início"
-  }
+  },
+  "loading": "Carregando..."
 }

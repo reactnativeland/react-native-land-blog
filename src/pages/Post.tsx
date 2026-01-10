@@ -74,7 +74,7 @@ function Post() {
         {formatDate(post.date, i18n.language)}
       </time>
       <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>{t('loading')}</div>}>
           <PostContent />
         </Suspense>
       </div>
