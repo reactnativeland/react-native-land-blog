@@ -26,5 +26,10 @@
   "language": {
     "en": "English",
     "pt-BR": "Português (BR)"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "message": "Desculpe, não conseguimos encontrar a página que você está procurando.",
+    "backButton": "Voltar para o início"
   }
 }
