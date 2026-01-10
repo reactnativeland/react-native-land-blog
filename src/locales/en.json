@@ -27,6 +27,13 @@
     "en": "English",
     "pt-BR": "Português (BR)"
   },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "Auto",
+    "ariaLabel": "Current theme: {{theme}}. Click to change.",
+    "title": "Theme: {{theme}} ({{resolvedTheme}} active)"
+  },
   "notFound": {
     "title": "Page not found",
     "message": "Sorry, we couldn't find the page you're looking for.",
