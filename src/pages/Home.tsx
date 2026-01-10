@@ -29,15 +29,18 @@ function Home() {
     <div>
       <div className="space-y-8">
         {posts.map((post) => (
-          <article key={post.slug} className="border-b border-gray-200 pb-8">
+          <article
+            key={post.slug}
+            className="border-b border-gray-200 dark:border-gray-700 pb-8"
+          >
             <Link to={`/posts/${post.slug}`} className="block group">
-              <h2 className="text-2xl font-semibold text-gray-900 group-hover:text-gray-700 mb-2">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-gray-700 dark:group-hover:text-gray-300 mb-2">
                 {post.title}
               </h2>
-              <time className="text-sm text-gray-500 block mb-8">
+              <time className="text-sm text-gray-500 dark:text-gray-400 block mb-8">
                 {formatDateShort(post.date, i18n.language)}
               </time>
-              <p className="text-gray-600">{post.excerpt}</p>
+              <p className="text-gray-600 dark:text-gray-400">{post.excerpt}</p>
             </Link>
           </article>
         ))}
