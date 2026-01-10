@@ -30,11 +30,19 @@ export default defineConfig({
         [
           rehypeShiki,
           {
-            themes: {
-              light: 'github-light',
-              dark: 'github-dark',
-            },
-            defaultColor: 'light',
+            theme: 'github-light',
+            transformers: [
+              {
+                name: 'add-file-title',
+                pre(node) {
+                  const meta = this.options.meta?.__raw || '';
+                  const titleMatch = meta.match(/title="([^"]+)"/);
+                  if (titleMatch) {
+                    node.properties['data-file'] = titleMatch[1];
+                  }
+                },
+              },
+            ],
           },
         ],
       ],
