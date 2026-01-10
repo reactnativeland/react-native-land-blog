@@ -7,6 +7,21 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   base: '/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          i18n: [
+            'i18next',
+            'react-i18next',
+            'i18next-browser-languagedetector',
+          ],
+          head: ['@unhead/react'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     mdx({
