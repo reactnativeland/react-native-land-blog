@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Native Land blog</title>
+    <script>
+      // GitHub Pages SPA redirect workaround
+      // This script redirects 404 errors to index.html while preserving the path
+      // The path is stored in sessionStorage and retrieved by the app on load
+      sessionStorage.redirect = location.href;
+      location.replace(
+        location.origin + location.pathname.split('/').slice(0, 1).join('/')
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
