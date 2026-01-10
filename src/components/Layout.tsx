@@ -17,14 +17,14 @@ function Layout({ children }: LayoutProps) {
 
   // Get current language code for HTML lang attribute
   const htmlLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en';
-  
+
   // Get alternate language code
   const alternateLang = i18n.language === 'pt-BR' ? 'en' : 'pt-BR';
   const alternateLangCode = alternateLang === 'pt-BR' ? 'pt-BR' : 'en';
 
   // Build current URL
   const currentUrl = `${SITE_URL}${location.pathname}`;
-  
+
   // Build alternate URL (for hreflang)
   const alternateUrl = currentUrl; // Same URL, different language
 
@@ -158,7 +158,9 @@ function Layout({ children }: LayoutProps) {
       </header>
       <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
         <main className="py-12 flex-grow flex flex-col">{children}</main>
-        <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400">
+      </div>
+      <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400 w-full">
+        <div className="max-w-4xl mx-auto px-6 w-full">
           <div className="flex flex-col items-center gap-4">
             <p className="text-gray-600 dark:text-gray-400">
               {t('footer.tagline')}
@@ -185,8 +187,8 @@ function Layout({ children }: LayoutProps) {
               {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
           </div>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </div>
   );
 }
