@@ -1,5 +1,5 @@
 import { useHead } from '@unhead/react';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -12,18 +12,23 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const { t } = useTranslation();
 
-  useHead({
-    title: t('site.title'),
-    meta: [{ name: 'description', content: t('site.description') }],
-    link: [
-      {
-        rel: 'alternate',
-        type: 'application/rss+xml',
-        title: 'RSS Feed',
-        href: '/rss.xml',
-      },
-    ],
-  });
+  useHead(
+    useMemo(
+      () => ({
+        title: t('site.title'),
+        meta: [{ name: 'description', content: t('site.description') }],
+        link: [
+          {
+            rel: 'alternate',
+            type: 'application/rss+xml',
+            title: 'RSS Feed',
+            href: '/rss.xml',
+          },
+        ],
+      }),
+      [t]
+    )
+  );
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col transition-colors">

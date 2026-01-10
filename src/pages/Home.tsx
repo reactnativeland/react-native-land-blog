@@ -1,4 +1,5 @@
 import { useHead } from '@unhead/react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
@@ -19,11 +20,21 @@ const postsData: Record<string, Post[]> = {
 
 function Home() {
   const { t, i18n } = useTranslation();
-  const posts = postsData[i18n.language] || postsData.en;
 
-  useHead({
-    title: t('home.title'),
-  });
+  const posts = useMemo(
+    () => postsData[i18n.language] || postsData.en,
+    [i18n.language]
+  );
+
+  // Memoize head metadata
+  useHead(
+    useMemo(
+      () => ({
+        title: t('home.title'),
+      }),
+      [t]
+    )
+  );
 
   return (
     <div>

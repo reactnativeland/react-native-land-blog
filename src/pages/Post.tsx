@@ -1,5 +1,5 @@
 import { useHead } from '@unhead/react';
-import { ComponentType, lazy, Suspense } from 'react';
+import { ComponentType, lazy, Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
@@ -28,16 +28,32 @@ const postsMetadata: Record<string, Record<string, PostData>> = {
   'pt-BR': createPostsMap(postsPtBr),
 };
 
+const postComponentCache = new Map<string, ComponentType>();
+
 const loadPost = (fileName: string, lang: string): ComponentType => {
   const langSuffix = lang === 'pt-BR' ? 'pt-br' : 'en';
-  return lazy(() => import(`../posts/${fileName}.${langSuffix}.mdx`));
+  const cacheKey = `${fileName}.${langSuffix}`;
+
+  if (!postComponentCache.has(cacheKey)) {
+    postComponentCache.set(cacheKey, lazy(() => import(`../posts/${fileName}.${langSuffix}.mdx`)));
+  }
+
+  return postComponentCache.get(cacheKey)!;
 };
 
 function Post() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const currentLangPosts = postsMetadata[i18n.language] || postsMetadata.en;
-  const post = slug ? currentLangPosts[slug] : undefined;
+
+  const currentLangPosts = useMemo(
+    () => postsMetadata[i18n.language] || postsMetadata.en,
+    [i18n.language]
+  );
+
+  const post = useMemo(
+    () => (slug ? currentLangPosts[slug] : undefined),
+    [slug, currentLangPosts]
+  );
 
   if (!post || !slug) {
     return (
@@ -58,12 +74,20 @@ function Post() {
     );
   }
 
-  const PostContent = loadPost(post.fileName, i18n.language);
+  const PostContent = useMemo(
+    () => loadPost(post.fileName, i18n.language),
+    [post.fileName, i18n.language]
+  );
 
-  useHead({
-    title: `${post.title} - ${t('site.title')}`,
-    meta: [{ name: 'description', content: `Read about ${post.title}` }],
-  });
+  useHead(
+    useMemo(
+      () => ({
+        title: `${post.title} - ${t('site.title')}`,
+        meta: [{ name: 'description', content: `Read about ${post.title}` }],
+      }),
+      [post.title, t]
+    )
+  );
 
   return (
     <article>
