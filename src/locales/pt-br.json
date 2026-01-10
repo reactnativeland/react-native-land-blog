@@ -16,7 +16,12 @@
     "title": "Blog React Native Land"
   },
   "post": {
-    "backToHome": "← Voltar para Início"
+    "backToHome": "Voltar para Início",
+    "notFound": {
+      "title": "Post Não Encontrado",
+      "message": "Desculpe, não conseguimos encontrar o post que você está procurando.",
+      "backButton": "Voltar para Início"
+    }
   },
   "language": {
     "en": "English",

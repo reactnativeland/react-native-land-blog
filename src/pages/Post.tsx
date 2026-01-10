@@ -1,7 +1,7 @@
 import { useHead } from '@unhead/react';
 import { ComponentType, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 
@@ -39,7 +39,22 @@ function Post() {
   const post = slug ? currentLangPosts[slug] : undefined;
 
   if (!post || !slug) {
-    return <div>Post not found</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          {t('post.notFound.title')}
+        </h1>
+        <p className="text-gray-600 mb-8 text-center max-w-md">
+          {t('post.notFound.message')}
+        </p>
+        <Link
+          to="/"
+          className="px-6 py-3 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition-colors"
+        >
+          {t('post.notFound.backButton')}
+        </Link>
+      </div>
+    );
   }
 
   const PostContent = loadPost(post.fileName, i18n.language);
