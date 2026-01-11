@@ -182,7 +182,7 @@ function Layout({ children }: LayoutProps) {
             <div className="flex items-center gap-1">
               <span>{t('footer.email')}</span>
               <a
-                href="mailto:hi@reactnative.land"
+                href="mailto:rick@reactnative.land"
                 className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors font-medium"
               >
                 rick@reactnative.land
