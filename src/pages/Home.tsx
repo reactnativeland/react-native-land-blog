@@ -30,77 +30,90 @@ function Home() {
     [i18n.language]
   );
 
-  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
+  const langUtils = useMemo(
+    () => getLanguageUtils(i18n.language),
+    [i18n.language]
+  );
   const currentUrl = `${SITE_URL}${location.pathname}`;
 
   // Enhanced description with keywords
-  const metaDescription = t('site.description') + ' Learn React Native, mobile app development, cross-platform development, and best practices.';
+  const metaDescription =
+    t('site.description') +
+    ' Learn React Native, mobile app development, cross-platform development, and best practices.';
 
   // Memoize head metadata
   useHead(
-    useMemo(
-      () => {
-        const metaTags = [
-          { name: 'description', content: metaDescription },
-          { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-          // Open Graph
-          { property: 'og:type', content: 'website' },
-          { property: 'og:url', content: currentUrl },
-          { property: 'og:title', content: t('home.title') },
-          { property: 'og:description', content: metaDescription },
-          { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
-          { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: langUtils.ogLocale },
-          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
-          // Twitter Card
-          { name: 'twitter:card', content: 'summary_large_image' },
-          { name: 'twitter:url', content: currentUrl },
-          { name: 'twitter:title', content: t('home.title') },
-          { name: 'twitter:description', content: metaDescription },
-          { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
-        ];
+    useMemo(() => {
+      const metaTags = [
+        { name: 'description', content: metaDescription },
+        {
+          name: 'robots',
+          content:
+            'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+        },
+        // Open Graph
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: currentUrl },
+        { property: 'og:title', content: t('home.title') },
+        { property: 'og:description', content: metaDescription },
+        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:site_name', content: t('site.title') },
+        { property: 'og:locale', content: langUtils.ogLocale },
+        {
+          property: 'og:locale:alternate',
+          content: langUtils.alternateOgLocale,
+        },
+        // Twitter Card
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:url', content: currentUrl },
+        { name: 'twitter:title', content: t('home.title') },
+        { name: 'twitter:description', content: metaDescription },
+        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+      ];
 
-        const linkTags = [
-          {
-            rel: 'canonical',
-            href: currentUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.htmlLang,
-            href: currentUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.alternateHtmlLang,
-            href: currentUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: 'x-default',
-            href: currentUrl,
-          },
-        ];
+      const linkTags = [
+        {
+          rel: 'canonical',
+          href: currentUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.htmlLang,
+          href: currentUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.alternateHtmlLang,
+          href: currentUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: 'x-default',
+          href: currentUrl,
+        },
+      ];
 
-        return {
-          title: t('home.title'),
-          meta: metaTags,
-          link: linkTags,
-        };
-      },
-      [t, metaDescription, currentUrl, langUtils]
-    )
+      return {
+        title: t('home.title'),
+        meta: metaTags,
+        link: linkTags,
+      };
+    }, [t, metaDescription, currentUrl, langUtils])
   );
 
   return (
     <div className="min-h-[50vh]">
       <div className="space-y-8">
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <article
             key={post.slug}
             itemScope
             itemType="https://schema.org/BlogPosting"
-            className="border-b border-gray-200 dark:border-gray-700 pb-8"
+            className={`pb-8 ${
+              posts.length > 1 && index < posts.length - 1
+                ? 'border-b border-gray-200 dark:border-gray-700'
+                : ''
+            }`}
           >
             <Link to={`/posts/${post.slug}`} className="block group">
               <h2
