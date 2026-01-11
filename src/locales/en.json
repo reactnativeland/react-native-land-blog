@@ -10,6 +10,7 @@
     "tagline": "Building better mobile apps, one article at a time.",
     "github": "GitHub",
     "rss": "RSS",
+    "email": "Drop me a line if you'd like to talk:",
     "copyright": "© {{year}} React Native Land. All rights reserved."
   },
   "home": {

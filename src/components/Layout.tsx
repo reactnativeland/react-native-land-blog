@@ -179,6 +179,15 @@ function Layout({ children }: LayoutProps) {
                 {t('footer.rss')}
               </a>
             </div>
+            <div className="flex items-center gap-1">
+              <span>{t('footer.email')}</span>
+              <a
+                href="mailto:hi@reactnative.land"
+                className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors font-medium"
+              >
+                rick@reactnative.land
+              </a>
+            </div>
             <p className="text-xs">
               {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
