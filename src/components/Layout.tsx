@@ -135,7 +135,7 @@ function Layout({ children }: LayoutProps) {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col transition-colors">
+    <div className="min-h-screen min-w-[240px] bg-white dark:bg-gray-900 flex flex-col transition-colors">
       <header
         className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 supports-[backdrop-filter]:dark:bg-gray-900/70 py-4 w-full"
       >
@@ -146,9 +146,9 @@ function Layout({ children }: LayoutProps) {
           >
             {t('header.title')}
           </Link>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
+          <div className="flex flex-col sm:flex-row items-center gap-2">
             <LanguageSwitcher />
+            <ThemeToggle />
           </div>
         </div>
       </header>
