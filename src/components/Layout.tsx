@@ -158,10 +158,10 @@ function Layout({ children }: LayoutProps) {
       <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400 w-full">
         <div className="max-w-4xl mx-auto px-6 w-full">
           <div className="flex flex-col items-center gap-4">
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400 text-center">
               {t('footer.tagline')}
             </p>
-            <div className="flex gap-6">
+            <div className="flex gap-6 justify-center">
               <a
                 href="https://github.com/reactnativeland"
                 target="_blank"
@@ -179,7 +179,7 @@ function Layout({ children }: LayoutProps) {
                 {t('footer.rss')}
               </a>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-1 text-center">
+            <div className="flex flex-col min-[321px]:flex-row items-center justify-center gap-1 text-center">
               <span>{t('footer.email')}</span>
               <a
                 href="mailto:rick@reactnative.land"
@@ -188,7 +188,7 @@ function Layout({ children }: LayoutProps) {
                 rick@reactnative.land
               </a>
             </div>
-            <p className="text-xs">
+            <p className="text-xs text-center">
               {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
           </div>
