@@ -179,7 +179,7 @@ function Layout({ children }: LayoutProps) {
                 {t('footer.rss')}
               </a>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex flex-col sm:flex-row items-center gap-1 text-center">
               <span>{t('footer.email')}</span>
               <a
                 href="mailto:rick@reactnative.land"
