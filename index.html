@@ -4,6 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+
+    <!-- Preload critical font weights (400, 600) for faster FCP -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="https://fonts.bunny.net/outfit/files/outfit-latin-400-normal.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="https://fonts.bunny.net/outfit/files/outfit-latin-600-normal.woff2"
+    />
+
+    <!-- Non-blocking font CSS loading using media swap trick -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800"
+      />
+    </noscript>
+
     <title>React Native Land blog</title>
     <meta name="theme-color" content="#121212" />
     <meta
@@ -51,7 +85,20 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Inline skeleton for instant perceived loading -->
+      <style>
+        #root:empty {
+          min-height: 100vh;
+          background: linear-gradient(to bottom, #121212 0%, #1a1a2e 100%);
+        }
+        @media (prefers-color-scheme: light) {
+          #root:empty {
+            background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+          }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
