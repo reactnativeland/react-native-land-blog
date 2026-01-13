@@ -83,9 +83,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, [resolvedTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>
+    <ThemeContext value={{ theme, setTheme, resolvedTheme }}>
       {children}
-    </ThemeContext.Provider>
+    </ThemeContext>
   );
 }
 
