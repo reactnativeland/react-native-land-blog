@@ -147,8 +147,12 @@ function Layout({ children }: LayoutProps) {
             {t('header.title')}
           </Link>
           <div className="flex flex-col sm:flex-row items-center gap-2">
-            <LanguageSwitcher />
-            <ThemeToggle />
+            <div className="order-1 sm:order-2">
+              <LanguageSwitcher />
+            </div>
+            <div className="order-2 sm:order-1">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
