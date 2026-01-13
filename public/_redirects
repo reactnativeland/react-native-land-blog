@@ -1,3 +1,4 @@
 # Cloudflare Pages SPA redirects
-# All routes should serve index.html for client-side routing
-/*    /index.html   200
+# NOTE: Cloudflare Pages automatically handles SPA routing when no 404.html exists.
+# The /* catch-all rule is intentionally omitted to avoid infinite loop warnings.
+# Cloudflare will serve index.html for all non-static-asset paths automatically.

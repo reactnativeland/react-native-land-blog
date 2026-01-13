@@ -24,19 +24,11 @@
       href="https://fonts.bunny.net/outfit/files/outfit-latin-600-normal.woff2"
     />
 
-    <!-- Non-blocking font CSS loading using media swap trick -->
+    <!-- Font CSS with display=swap for non-blocking text rendering -->
     <link
       rel="stylesheet"
-      href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800"
-      media="print"
-      onload="this.media='all'"
+      href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800&display=swap"
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800"
-      />
-    </noscript>
 
     <title>React Native Land blog</title>
     <meta name="theme-color" content="#121212" />
