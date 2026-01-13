@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import enTranslations from './locales/en.json';
 import ptBrTranslations from './locales/pt-br.json';
+import { DEFAULT_LANGUAGE } from './utils/language';
 
 i18n
   .use(LanguageDetector)
@@ -16,7 +17,7 @@ i18n
         translation: ptBrTranslations,
       },
     },
-    fallbackLng: 'en',
+    fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: ['en', 'pt-BR'],
     interpolation: {
       escapeValue: false,
