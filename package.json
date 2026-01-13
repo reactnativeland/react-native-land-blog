@@ -49,6 +49,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-rss.js && node scripts/generate-sitemap.js && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "vite build && open dist/stats.html"
   }
 }
