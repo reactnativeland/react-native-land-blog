@@ -6,6 +6,7 @@ import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 import { formatDate } from '../utils/formatDate';
 import { getLanguageUtils } from '../utils/language';
+import './Post.css';
 
 interface PostData {
   title: string;
@@ -40,12 +41,14 @@ const loadPost = (fileName: string, lang: string): ComponentType => {
   const cacheKey = `${fileName}.${langSuffix}`;
 
   if (!postComponentCache.has(cacheKey)) {
-    postComponentCache.set(cacheKey, lazy(() => import(`../posts/${fileName}.${langSuffix}.mdx`)));
+    postComponentCache.set(
+      cacheKey,
+      lazy(() => import(`../posts/${fileName}.${langSuffix}.mdx`))
+    );
   }
 
   return postComponentCache.get(cacheKey)!;
 };
-
 
 function Post() {
   const { slug } = useParams<{ slug: string }>();
@@ -56,7 +59,10 @@ function Post() {
     [i18n.language]
   );
 
-  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
+  const langUtils = useMemo(
+    () => getLanguageUtils(i18n.language),
+    [i18n.language]
+  );
 
   const alternateLangPosts = useMemo(
     () => postsMetadata[langUtils.alternate],
@@ -72,7 +78,6 @@ function Post() {
     () => (slug ? alternateLangPosts[slug] : undefined),
     [slug, alternateLangPosts]
   );
-
 
   if (!post || !slug) {
     return (
@@ -143,80 +148,103 @@ function Post() {
   }, [post.title, metaDescription, publishedDate, postUrl]);
 
   useHead(
-    useMemo(
-      () => {
-        const metaTags = [
-          { name: 'description', content: metaDescription },
-          { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-          // Open Graph
-          { property: 'og:type', content: 'article' },
-          { property: 'og:url', content: postUrl },
-          { property: 'og:title', content: `${post.title} - ${t('site.title')}` },
-          { property: 'og:description', content: metaDescription },
-          { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
-          { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: langUtils.ogLocale },
-          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
-          // Article specific
-          { property: 'article:published_time', content: publishedDate },
-          { property: 'article:modified_time', content: publishedDate },
-          { property: 'article:author', content: 'React Native Land' },
-          { property: 'article:section', content: 'React Native' },
-          // Twitter Card
-          { name: 'twitter:card', content: 'summary_large_image' },
-          { name: 'twitter:url', content: postUrl },
-          { name: 'twitter:title', content: `${post.title} - ${t('site.title')}` },
-          { name: 'twitter:description', content: metaDescription },
-          { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
-        ];
+    useMemo(() => {
+      const metaTags = [
+        { name: 'description', content: metaDescription },
+        {
+          name: 'robots',
+          content:
+            'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+        },
+        // Open Graph
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: postUrl },
+        { property: 'og:title', content: `${post.title} - ${t('site.title')}` },
+        { property: 'og:description', content: metaDescription },
+        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:site_name', content: t('site.title') },
+        { property: 'og:locale', content: langUtils.ogLocale },
+        {
+          property: 'og:locale:alternate',
+          content: langUtils.alternateOgLocale,
+        },
+        // Article specific
+        { property: 'article:published_time', content: publishedDate },
+        { property: 'article:modified_time', content: publishedDate },
+        { property: 'article:author', content: 'React Native Land' },
+        { property: 'article:section', content: 'React Native' },
+        // Twitter Card
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:url', content: postUrl },
+        {
+          name: 'twitter:title',
+          content: `${post.title} - ${t('site.title')}`,
+        },
+        { name: 'twitter:description', content: metaDescription },
+        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+      ];
 
-        const linkTags = [
-          {
-            rel: 'canonical',
-            href: postUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.htmlLang,
-            href: postUrl,
-          },
-        ];
+      const linkTags = [
+        {
+          rel: 'canonical',
+          href: postUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.htmlLang,
+          href: postUrl,
+        },
+      ];
 
-        // Add alternate language link if available
-        if (alternatePost) {
-          linkTags.push({
-            rel: 'alternate',
-            hreflang: langUtils.alternateHtmlLang,
-            href: postUrl, // Same URL, different language content
-          });
-        }
-
+      // Add alternate language link if available
+      if (alternatePost) {
         linkTags.push({
           rel: 'alternate',
-          hreflang: 'x-default' as any,
-          href: postUrl,
+          hreflang: langUtils.alternateHtmlLang,
+          href: postUrl, // Same URL, different language content
         });
+      }
 
-        return {
-          title: `${post.title} - ${t('site.title')}`,
-          meta: metaTags,
-          link: linkTags,
-          script: [
-            {
-              type: 'application/ld+json',
-              children: JSON.stringify(articleStructuredData),
-            },
-          ],
-        };
-      },
-      [post.title, metaDescription, postUrl, langUtils, publishedDate, t, articleStructuredData, alternatePost]
-    )
+      linkTags.push({
+        rel: 'alternate',
+        hreflang: 'x-default' as any,
+        href: postUrl,
+      });
+
+      return {
+        title: `${post.title} - ${t('site.title')}`,
+        meta: metaTags,
+        link: linkTags,
+        script: [
+          {
+            type: 'application/ld+json',
+            children: JSON.stringify(articleStructuredData),
+          },
+        ],
+      };
+    }, [
+      post.title,
+      metaDescription,
+      postUrl,
+      langUtils,
+      publishedDate,
+      t,
+      articleStructuredData,
+      alternatePost,
+    ])
   );
 
   return (
-    <article itemScope itemType="https://schema.org/BlogPosting" className="min-h-[50vh]">
+    <article
+      itemScope
+      itemType="https://schema.org/BlogPosting"
+      className="min-h-[50vh]"
+    >
       <header>
-        <h1 itemProp="headline" className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+        <h1
+          itemProp="headline"
+          className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2"
+        >
           {post.title}
         </h1>
         <time
