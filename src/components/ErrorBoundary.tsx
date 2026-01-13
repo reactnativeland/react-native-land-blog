@@ -1,5 +1,4 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 
 interface Props {
   children: ReactNode;
@@ -25,6 +24,10 @@ class ErrorBoundary extends Component<Props, State> {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
 
+  handleGoHome = () => {
+    window.location.href = '/';
+  };
+
   render() {
     if (this.state.hasError) {
       return (
@@ -43,12 +46,12 @@ class ErrorBoundary extends Component<Props, State> {
               We apologize for the inconvenience. An unexpected error occurred.
             </p>
             <div className="flex gap-4 justify-center">
-              <Link
-                to="/"
+              <button
+                onClick={this.handleGoHome}
                 className="px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors"
               >
                 Go Home
-              </Link>
+              </button>
               <button
                 onClick={() => window.location.reload()}
                 className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
