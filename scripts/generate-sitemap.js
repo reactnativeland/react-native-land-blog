@@ -6,6 +6,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SITE_URL = 'https://reactnative.land';
+const DEFAULT_LANGUAGE = 'en';
+
+/**
+ * Finds the default language URL from hreflang array
+ * Returns the English URL if available, otherwise the first URL or fallback
+ */
+const findDefaultLanguageUrl = (hreflang, fallback) => {
+  return hreflang.find((h) => h.lang === DEFAULT_LANGUAGE)?.href || fallback;
+};
 
 // Read post metadata
 const postsEn = JSON.parse(
@@ -101,7 +110,7 @@ ${urls
         urlXml += `\n    <xhtml:link rel="alternate" hreflang="${hreflang.lang}" href="${hreflang.href}" />`;
       });
       // Add x-default
-      urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${url.hreflang.find((h) => h.lang === 'en')?.href || url.loc}" />`;
+      urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${findDefaultLanguageUrl(url.hreflang, url.loc)}" />`;
     }
 
     urlXml += `\n  </url>`;

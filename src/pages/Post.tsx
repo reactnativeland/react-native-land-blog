@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 import { formatDate } from '../utils/formatDate';
-import { getLanguageUtils } from '../utils/language';
+import { DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '../utils/language';
 import './Post.css';
 
 interface PostData {
@@ -37,7 +37,8 @@ const postsMetadata: Record<string, Record<string, PostData>> = {
 const postComponentCache = new Map<string, ComponentType>();
 
 const loadPost = (fileName: string, lang: string): ComponentType => {
-  const langSuffix = lang === 'pt-BR' ? 'pt-br' : 'en';
+  const normalizedLang = normalizeLanguage(lang);
+  const langSuffix = toFileSuffix(normalizedLang);
   const cacheKey = `${fileName}.${langSuffix}`;
 
   if (!postComponentCache.has(cacheKey)) {
@@ -55,7 +56,7 @@ function Post() {
   const { t, i18n } = useTranslation();
 
   const currentLangPosts = useMemo(
-    () => postsMetadata[i18n.language] || postsMetadata.en,
+    () => postsMetadata[i18n.language] || postsMetadata[DEFAULT_LANGUAGE],
     [i18n.language]
   );
 

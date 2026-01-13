@@ -2,7 +2,7 @@ export type SupportedLanguage = 'en' | 'pt-BR';
 export type LanguageCode = 'en' | 'pt-BR';
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'pt-BR'];
-const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
+export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
 
 /**
  * Normalizes a language string to a supported language, defaulting to 'en'
@@ -43,6 +43,14 @@ export function toOgLocale(lang: SupportedLanguage): string {
  */
 export function toDisplayLabel(lang: SupportedLanguage): string {
   return lang === 'pt-BR' ? 'PT' : 'EN';
+}
+
+/**
+ * Converts language to file suffix format
+ * (pt-BR -> pt-br, en -> en)
+ */
+export function toFileSuffix(lang: SupportedLanguage): string {
+  return lang === 'pt-BR' ? 'pt-br' : 'en';
 }
 
 /**

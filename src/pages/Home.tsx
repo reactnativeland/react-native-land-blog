@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import postsEn from '../locales/posts/en.json';
 import postsPtBr from '../locales/posts/pt-br.json';
 import { formatDateShort } from '../utils/formatDate';
-import { getLanguageUtils } from '../utils/language';
+import { DEFAULT_LANGUAGE, getLanguageUtils } from '../utils/language';
 
 interface Post {
   slug: string;
@@ -26,7 +26,7 @@ function Home() {
   const location = useLocation();
 
   const posts = useMemo(
-    () => postsData[i18n.language] || postsData.en,
+    () => postsData[i18n.language] || postsData[DEFAULT_LANGUAGE],
     [i18n.language]
   );
 
@@ -109,11 +109,10 @@ function Home() {
             key={post.slug}
             itemScope
             itemType="https://schema.org/BlogPosting"
-            className={`pb-8 ${
-              posts.length > 1 && index < posts.length - 1
+            className={`pb-8 ${posts.length > 1 && index < posts.length - 1
                 ? 'border-b border-gray-200 dark:border-gray-700'
                 : ''
-            }`}
+              }`}
           >
             <Link to={`/posts/${post.slug}`} className="block group">
               <h2
