@@ -1,5 +1,6 @@
+# Allow all crawlers including AI bots
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemap location
 Sitemap: https://reactnative.land/sitemap.xml
