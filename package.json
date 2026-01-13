@@ -17,7 +17,6 @@
     "tailwindcss"
   ],
   "dependencies": {
-    "@fontsource/outfit": "^5.2.8",
     "@unhead/react": "^2.1.1",
     "i18next": "^25.7.4",
     "i18next-browser-languagedetector": "^8.2.0",
@@ -45,7 +44,7 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
   },
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.28.0+sha512.05df71d1421f21399e053fde567cea34d446fa02c76571441bfc1c7956e98e363088982d940465fd34480d4d90a0668bc12362f8aa88000a64e83d0b0e47be48",
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-rss.js && node scripts/generate-sitemap.js && vite build",
