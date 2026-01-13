@@ -32,6 +32,7 @@ export default defineConfig({
             'i18next-browser-languagedetector',
           ],
           head: ['@unhead/react'],
+          shiki: ['shiki', '@shikijs/rehype'],
         },
       },
     },
