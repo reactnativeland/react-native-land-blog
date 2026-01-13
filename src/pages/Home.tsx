@@ -1,8 +1,7 @@
 import { useHead } from '@unhead/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { postsEn, postsPtBr } from '@locales';
 import { formatDateShort, DEFAULT_LANGUAGE, getLanguageUtils } from '@utils';
 
 interface Post {
@@ -12,9 +11,15 @@ interface Post {
   excerpt: string;
 }
 
-const postsData: Record<string, Post[]> = {
-  en: postsEn,
-  'pt-BR': postsPtBr,
+// Lazy load post metadata - only load the current language
+const loadPostsData = async (lang: string): Promise<Post[]> => {
+  const normalizedLang = lang === 'pt-BR' ? 'pt-BR' : 'en';
+  if (normalizedLang === 'pt-BR') {
+    const { postsPtBr } = await import('@locales/posts');
+    return postsPtBr;
+  }
+  const { postsEn } = await import('@locales/posts');
+  return postsEn;
 };
 
 const SITE_URL = 'https://reactnative.land';
@@ -22,11 +27,16 @@ const SITE_URL = 'https://reactnative.land';
 function Home() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const posts = useMemo(
-    () => postsData[i18n.language] || postsData[DEFAULT_LANGUAGE],
-    [i18n.language]
-  );
+  useEffect(() => {
+    setIsLoading(true);
+    loadPostsData(i18n.language || DEFAULT_LANGUAGE).then((loadedPosts) => {
+      setPosts(loadedPosts);
+      setIsLoading(false);
+    });
+  }, [i18n.language]);
 
   const langUtils = useMemo(
     () => getLanguageUtils(i18n.language),
@@ -98,6 +108,10 @@ function Home() {
       };
     }, [t, metaDescription, currentUrl, langUtils])
   );
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className="min-h-[50vh]">

@@ -4,6 +4,7 @@ import rehypeShiki from '@shikijs/rehype';
 import react from '@vitejs/plugin-react';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -64,6 +65,12 @@ export default defineConfig({
           },
         ],
       ],
+    }),
+    visualizer({
+      filename: 'dist/stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
     }),
   ],
 });

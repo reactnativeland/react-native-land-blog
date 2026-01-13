@@ -1,8 +1,7 @@
 import { useHead } from '@unhead/react';
-import { ComponentType, lazy, Suspense, useMemo } from 'react';
+import { ComponentType, lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import { postsEn, postsPtBr } from '@locales';
 import { formatDate, DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '@utils';
 import './Post.css';
 
@@ -15,7 +14,18 @@ interface PostData {
 
 const SITE_URL = 'https://reactnative.land';
 
-const createPostsMap = (posts: typeof postsEn): Record<string, PostData> => {
+// Lazy load post metadata - only load the current language
+const loadPostsMetadata = async (lang: string): Promise<Record<string, PostData>> => {
+  const normalizedLang = lang === 'pt-BR' ? 'pt-BR' : 'en';
+  let posts;
+  if (normalizedLang === 'pt-BR') {
+    const { postsPtBr } = await import('@locales/posts');
+    posts = postsPtBr;
+  } else {
+    const { postsEn } = await import('@locales/posts');
+    posts = postsEn;
+  }
+
   return posts.reduce((acc, post) => {
     acc[post.slug] = {
       title: post.title,
@@ -25,11 +35,6 @@ const createPostsMap = (posts: typeof postsEn): Record<string, PostData> => {
     };
     return acc;
   }, {} as Record<string, PostData>);
-};
-
-const postsMetadata: Record<string, Record<string, PostData>> = {
-  en: createPostsMap(postsEn),
-  'pt-BR': createPostsMap(postsPtBr),
 };
 
 const postComponentCache = new Map<string, ComponentType>();
@@ -52,21 +57,29 @@ const loadPost = (fileName: string, lang: string): ComponentType => {
 function Post() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-
-  const currentLangPosts = useMemo(
-    () => postsMetadata[i18n.language] || postsMetadata[DEFAULT_LANGUAGE],
-    [i18n.language]
-  );
+  const [currentLangPosts, setCurrentLangPosts] = useState<Record<string, PostData>>({});
+  const [alternateLangPosts, setAlternateLangPosts] = useState<Record<string, PostData>>({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const langUtils = useMemo(
     () => getLanguageUtils(i18n.language),
     [i18n.language]
   );
 
-  const alternateLangPosts = useMemo(
-    () => postsMetadata[langUtils.alternate],
-    [langUtils.alternate]
-  );
+  useEffect(() => {
+    setIsLoading(true);
+    const currentLang = i18n.language || DEFAULT_LANGUAGE;
+    const alternateLang = langUtils.alternate;
+
+    Promise.all([
+      loadPostsMetadata(currentLang),
+      loadPostsMetadata(alternateLang),
+    ]).then(([current, alternate]) => {
+      setCurrentLangPosts(current);
+      setAlternateLangPosts(alternate);
+      setIsLoading(false);
+    });
+  }, [i18n.language, langUtils.alternate]);
 
   const post = useMemo(
     () => (slug ? currentLangPosts[slug] : undefined),
@@ -78,43 +91,29 @@ function Post() {
     [slug, alternateLangPosts]
   );
 
-  if (!post || !slug) {
-    return (
-      <div className="flex flex-col items-center justify-center flex-1">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-          {t('post.notFound.title')}
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8 text-center max-w-md">
-          {t('post.notFound.message')}
-        </p>
-        <Link
-          to="/"
-          className="px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors"
-        >
-          {t('post.notFound.backButton')}
-        </Link>
-      </div>
-    );
-  }
+  // Build URLs (safe even if post is undefined)
+  const postUrl = slug ? `${SITE_URL}/posts/${slug}` : '';
 
-  const PostContent = useMemo(
-    () => loadPost(post.fileName, i18n.language),
-    [post.fileName, i18n.language]
+  // Create rich description (safe even if post is undefined)
+  const metaDescription = useMemo(
+    () =>
+      post?.excerpt
+        ? `${post.excerpt} | React Native development blog`
+        : post
+          ? `Read about ${post.title} on React Native Land Blog. Learn React Native, mobile app development, and best practices.`
+          : '',
+    [post]
   );
 
-  // Build URLs
-  const postUrl = `${SITE_URL}/posts/${slug}`;
-
-  // Create rich description
-  const metaDescription = post.excerpt
-    ? `${post.excerpt} | React Native development blog`
-    : `Read about ${post.title} on React Native Land Blog. Learn React Native, mobile app development, and best practices.`;
-
   // Format date for structured data (ISO 8601)
-  const publishedDate = new Date(post.date).toISOString();
+  const publishedDate = useMemo(
+    () => (post?.date ? new Date(post.date).toISOString() : ''),
+    [post?.date]
+  );
 
-  // Generate structured data for article
+  // Generate structured data for article (safe even if post is undefined)
   const articleStructuredData = useMemo(() => {
+    if (!post) return null;
     const baseArticle = {
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
@@ -144,10 +143,21 @@ function Post() {
     };
 
     return baseArticle;
-  }, [post.title, metaDescription, publishedDate, postUrl]);
+  }, [post, metaDescription, publishedDate, postUrl]);
 
+  // PostContent (safe even if post is undefined)
+  const PostContent = useMemo(
+    () => (post?.fileName ? loadPost(post.fileName, i18n.language) : null),
+    [post?.fileName, i18n.language]
+  );
+
+  // useHead hook - must be called before any conditional returns
   useHead(
     useMemo(() => {
+      if (!post) {
+        return { title: t('site.title') };
+      }
+
       const metaTags = [
         { name: 'description', content: metaDescription },
         {
@@ -214,15 +224,17 @@ function Post() {
         title: `${post.title} - ${t('site.title')}`,
         meta: metaTags,
         link: linkTags,
-        script: [
-          {
-            type: 'application/ld+json',
-            children: JSON.stringify(articleStructuredData),
-          },
-        ],
+        script: articleStructuredData
+          ? [
+            {
+              type: 'application/ld+json',
+              children: JSON.stringify(articleStructuredData),
+            },
+          ]
+          : [],
       };
     }, [
-      post.title,
+      post,
       metaDescription,
       postUrl,
       langUtils,
@@ -232,6 +244,30 @@ function Post() {
       alternatePost,
     ])
   );
+
+  // Now we can do conditional returns after all hooks
+  if (isLoading) {
+    return null;
+  }
+
+  if (!post || !slug || !PostContent) {
+    return (
+      <div className="flex flex-col items-center justify-center flex-1">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          {t('post.notFound.title')}
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-8 text-center max-w-md">
+          {t('post.notFound.message')}
+        </p>
+        <Link
+          to="/"
+          className="px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors"
+        >
+          {t('post.notFound.backButton')}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <article
