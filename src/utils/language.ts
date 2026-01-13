@@ -38,6 +38,14 @@ export function toOgLocale(lang: SupportedLanguage): string {
 }
 
 /**
+ * Converts language to display label format
+ * (pt-BR -> PT, en -> EN)
+ */
+export function toDisplayLabel(lang: SupportedLanguage): string {
+  return lang === 'pt-BR' ? 'PT' : 'EN';
+}
+
+/**
  * Gets language utilities for a given language string
  * Returns normalized language, alternate, and formatted codes
  */
