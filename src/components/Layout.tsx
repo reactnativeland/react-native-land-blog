@@ -2,7 +2,7 @@ import { useHead } from '@unhead/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { getLanguageUtils } from '../utils/language';
+import { getLanguageUtils } from '@utils';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 

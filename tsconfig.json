@@ -13,6 +13,18 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@context": ["src/context"],
+      "@context/*": ["src/context/*"],
+      "@locales": ["src/locales"],
+      "@locales/*": ["src/locales/*"]
+    },
 
     /* Linting */
     "strict": true,

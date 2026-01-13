@@ -1,6 +1,6 @@
 import { useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getAlternateLanguage, normalizeLanguage, toDisplayLabel } from '../utils/language';
+import { getAlternateLanguage, normalizeLanguage, toDisplayLabel } from '@utils';
 
 function LanguageSwitcher() {
   const { i18n } = useTranslation();

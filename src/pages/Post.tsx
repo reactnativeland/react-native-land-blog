@@ -2,10 +2,8 @@ import { useHead } from '@unhead/react';
 import { ComponentType, lazy, Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import postsEn from '../locales/posts/en.json';
-import postsPtBr from '../locales/posts/pt-br.json';
-import { formatDate } from '../utils/formatDate';
-import { DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '../utils/language';
+import { postsEn, postsPtBr } from '@locales';
+import { formatDate, DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '@utils';
 import './Post.css';
 
 interface PostData {

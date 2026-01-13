@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url';
 import mdx from '@mdx-js/rollup';
 import rehypeShiki from '@shikijs/rehype';
 import react from '@vitejs/plugin-react';
@@ -7,6 +8,15 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   base: '/',
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
+      '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+      '@context': fileURLToPath(new URL('./src/context', import.meta.url)),
+      '@locales': fileURLToPath(new URL('./src/locales', import.meta.url)),
+    },
+  },
   build: {
     cssCodeSplit: true,
     minify: 'esbuild',

@@ -1,9 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundary';
-import Layout from './components/Layout';
-import { ThemeProvider } from './context/ThemeContext';
+import { ErrorBoundary, Layout } from '@components';
+import { ThemeProvider } from '@context';
 
 const Home = lazy(() => import('./pages/Home'));
 const Post = lazy(() => import('./pages/Post'));
@@ -11,7 +10,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   const { t } = useTranslation();
-  
+
   return (
     <ErrorBoundary>
       <ThemeProvider>
