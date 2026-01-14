@@ -1,8 +1,7 @@
 import { useTransition } from 'react';
 import { useTranslation } from '@i18n';
 import { useTheme } from '@context';
-import { MoonIcon } from './icons/MoonIcon';
-import { SunIcon } from './icons/SunIcon';
+import { MoonIcon, SunIcon } from '@icons';
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
