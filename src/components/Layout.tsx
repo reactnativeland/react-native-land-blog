@@ -25,6 +25,9 @@ function Layout({ children }: LayoutProps) {
   // Build alternate URL (for hreflang)
   const alternateUrl = currentUrl; // Same URL, different language
 
+  // Check if we're on a post page
+  const isPostPage = location.pathname.startsWith('/posts/');
+
   // Set HTML lang attribute
   useEffect(() => {
     document.documentElement.lang = langUtils.htmlLang;
@@ -121,7 +124,8 @@ function Layout({ children }: LayoutProps) {
         ];
 
         return {
-          title: t('site.title'),
+          // Don't set title on post pages - let Post component handle it
+          ...(isPostPage ? {} : { title: t('site.title') }),
           meta: metaTags,
           link: linkTags,
           script: structuredData.map((data, index) => ({
@@ -131,7 +135,7 @@ function Layout({ children }: LayoutProps) {
           })),
         };
       },
-      [t, currentUrl, langUtils, alternateUrl, structuredData, location.pathname]
+      [t, currentUrl, langUtils, alternateUrl, structuredData, location.pathname, isPostPage]
     )
   );
 
