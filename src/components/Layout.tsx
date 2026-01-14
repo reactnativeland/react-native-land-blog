@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { getLanguageUtils } from '@utils';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
+import { InstallPrompt } from './InstallPrompt';
 
 interface LayoutProps {
   children: ReactNode;
@@ -198,6 +199,7 @@ function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </footer>
+      <InstallPrompt />
     </div>
   );
 }

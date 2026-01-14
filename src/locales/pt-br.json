@@ -1,10 +1,10 @@
 {
   "site": {
-    "title": "Blog React Native Land",
+    "title": "React Native Land",
     "description": "Um blog sobre desenvolvimento React Native"
   },
   "header": {
-    "title": "Blog React Native Land"
+    "title": "React Native Land"
   },
   "footer": {
     "tagline": "Construindo aplicativos mobile melhores, um artigo por vez.",
@@ -14,7 +14,7 @@
     "copyright": "© {{year}} React Native Land. Todos os direitos reservados."
   },
   "home": {
-    "title": "Blog React Native Land"
+    "title": "React Native Land"
   },
   "post": {
     "backToHome": "Voltar para o início",
@@ -40,5 +40,12 @@
     "message": "Desculpe, não conseguimos encontrar a página que você está procurando.",
     "backButton": "Voltar para o início"
   },
-  "loading": "Carregando..."
+  "loading": "Carregando...",
+  "install": {
+    "title": "Instalar React Native Land",
+    "description": "Adicione à sua tela inicial.",
+    "button": "Instalar",
+    "dismiss": "Agora não",
+    "close": "Fechar"
+  }
 }
