@@ -17,8 +17,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const STORAGE_KEY = 'theme';
-export const DEFAULT_THEME: Theme = 'system';
+export const DEFAULT_THEME: Theme = 'light';
 
 function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') return 'light';
@@ -27,28 +26,16 @@ function getSystemTheme(): ResolvedTheme {
     : 'light';
 }
 
-function getStoredTheme(): Theme {
-  if (typeof window === 'undefined') return DEFAULT_THEME;
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'light' || stored === 'dark' || stored === 'system') {
-    return stored;
-  }
-  return DEFAULT_THEME;
-}
-
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(getStoredTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    theme === 'system' ? getSystemTheme() : theme
-  );
+  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem(STORAGE_KEY, newTheme);
   };
 
   // Update resolved theme when theme or system preference changes
@@ -74,13 +61,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Apply theme class to document
   useEffect(() => {
-    const root = document.documentElement;
-    const hasDarkClass = root.classList.contains('dark');
-    if (resolvedTheme === 'dark') {
-      if (!hasDarkClass) root.classList.add('dark');
-    } else {
-      if (hasDarkClass) root.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
   }, [resolvedTheme]);
 
   return (
