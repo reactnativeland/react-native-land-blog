@@ -33,8 +33,9 @@ pre[data-file]::before {
   margin: -16px -16px 16px -16px;
   border-bottom: 1px solid #d0d7de;
   border-radius: 6px 6px 0 0;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    monospace;
 }
 
 /* File header for code blocks - Dark mode */
@@ -47,8 +48,9 @@ html.dark pre[data-file]::before {
 code {
   font-size: 14px;
   line-height: 1.45;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    monospace;
 }
 
 /* Inline code - Light mode */

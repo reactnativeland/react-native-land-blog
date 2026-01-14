@@ -15,7 +15,9 @@ function AppContent() {
     <ErrorBoundary>
       <ThemeProvider>
         <Layout>
-          <Suspense fallback={<div className="animate-pulse">{t('loading')}</div>}>
+          <Suspense
+            fallback={<div className="animate-pulse">{t('loading')}</div>}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/posts/:slug" element={<Post />} />

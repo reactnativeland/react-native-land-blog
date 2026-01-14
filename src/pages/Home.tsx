@@ -31,11 +31,16 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
+    let cancelled = false;
     loadPostsData(i18n.language || DEFAULT_LANGUAGE).then((loadedPosts) => {
-      setPosts(loadedPosts);
-      setIsLoading(false);
+      if (!cancelled) {
+        setPosts(loadedPosts);
+        setIsLoading(false);
+      }
     });
+    return () => {
+      cancelled = true;
+    };
   }, [i18n.language]);
 
   const langUtils = useMemo(
@@ -121,10 +126,11 @@ function Home() {
             key={post.slug}
             itemScope
             itemType="https://schema.org/BlogPosting"
-            className={`pb-8 ${posts.length > 1 && index < posts.length - 1
-              ? 'border-b border-gray-200 dark:border-gray-700'
-              : ''
-              }`}
+            className={`pb-8 ${
+              posts.length > 1 && index < posts.length - 1
+                ? 'border-b border-gray-200 dark:border-gray-700'
+                : ''
+            }`}
           >
             <Link to={`/posts/${post.slug}`} className="block group">
               <h2

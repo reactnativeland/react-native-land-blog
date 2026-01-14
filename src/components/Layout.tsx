@@ -16,7 +16,10 @@ function Layout({ children }: LayoutProps) {
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  const langUtils = useMemo(() => getLanguageUtils(i18n.language), [i18n.language]);
+  const langUtils = useMemo(
+    () => getLanguageUtils(i18n.language),
+    [i18n.language]
+  );
 
   // Build current URL
   const currentUrl = `${SITE_URL}${location.pathname}`;
@@ -72,77 +75,87 @@ function Layout({ children }: LayoutProps) {
   }, [t]);
 
   useHead(
-    useMemo(
-      () => {
-        const metaTags = [
-          { name: 'description', content: t('site.description') },
-          { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-          // Open Graph
-          { property: 'og:type', content: 'website' },
-          { property: 'og:url', content: currentUrl },
-          { property: 'og:title', content: t('site.title') },
-          { property: 'og:description', content: t('site.description') },
-          { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
-          { property: 'og:site_name', content: t('site.title') },
-          { property: 'og:locale', content: langUtils.ogLocale },
-          { property: 'og:locale:alternate', content: langUtils.alternateOgLocale },
-          // Twitter Card
-          { name: 'twitter:card', content: 'summary_large_image' },
-          { name: 'twitter:url', content: currentUrl },
-          { name: 'twitter:title', content: t('site.title') },
-          { name: 'twitter:description', content: t('site.description') },
-          { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
-        ];
+    useMemo(() => {
+      const metaTags = [
+        { name: 'description', content: t('site.description') },
+        {
+          name: 'robots',
+          content:
+            'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+        },
+        // Open Graph
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: currentUrl },
+        { property: 'og:title', content: t('site.title') },
+        { property: 'og:description', content: t('site.description') },
+        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:site_name', content: t('site.title') },
+        { property: 'og:locale', content: langUtils.ogLocale },
+        {
+          property: 'og:locale:alternate',
+          content: langUtils.alternateOgLocale,
+        },
+        // Twitter Card
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:url', content: currentUrl },
+        { name: 'twitter:title', content: t('site.title') },
+        { name: 'twitter:description', content: t('site.description') },
+        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+      ];
 
-        const linkTags = [
-          {
-            rel: 'alternate',
-            type: 'application/rss+xml',
-            title: 'RSS Feed',
-            href: '/rss.xml',
-          },
-          {
-            rel: 'canonical',
-            href: currentUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.htmlLang,
-            href: currentUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.alternateHtmlLang,
-            href: alternateUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: 'x-default',
-            href: `${SITE_URL}${location.pathname}`,
-          },
-        ];
+      const linkTags = [
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'RSS Feed',
+          href: '/rss.xml',
+        },
+        {
+          rel: 'canonical',
+          href: currentUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.htmlLang,
+          href: currentUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.alternateHtmlLang,
+          href: alternateUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: 'x-default',
+          href: `${SITE_URL}${location.pathname}`,
+        },
+      ];
 
-        return {
-          // Don't set title on post pages - let Post component handle it
-          ...(isPostPage ? {} : { title: t('site.title') }),
-          meta: metaTags,
-          link: linkTags,
-          script: structuredData.map((data, index) => ({
-            type: 'application/ld+json',
-            children: JSON.stringify(data),
-            key: `structured-data-${index}`,
-          })),
-        };
-      },
-      [t, currentUrl, langUtils, alternateUrl, structuredData, location.pathname, isPostPage]
-    )
+      return {
+        // Don't set title on post pages - let Post component handle it
+        ...(isPostPage ? {} : { title: t('site.title') }),
+        meta: metaTags,
+        link: linkTags,
+        script: structuredData.map((data, index) => ({
+          type: 'application/ld+json',
+          children: JSON.stringify(data),
+          key: `structured-data-${index}`,
+        })),
+      };
+    }, [
+      t,
+      currentUrl,
+      langUtils,
+      alternateUrl,
+      structuredData,
+      location.pathname,
+      isPostPage,
+    ])
   );
 
   return (
     <div className="min-h-screen min-w-[240px] bg-white dark:bg-gray-900 flex flex-col transition-colors">
-      <header
-        className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 supports-[backdrop-filter]:dark:bg-gray-900/70 py-4 w-full"
-      >
+      <header className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 supports-[backdrop-filter]:dark:bg-gray-900/70 py-4 w-full">
         <div className="max-w-4xl mx-auto px-6 w-full flex items-center justify-between">
           <Link
             to="/"
@@ -161,7 +174,9 @@ function Layout({ children }: LayoutProps) {
         </div>
       </header>
       <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col">
-        <main className="py-12 flex-grow flex flex-col min-h-[60vh]">{children}</main>
+        <main className="py-12 flex-grow flex flex-col min-h-[60vh]">
+          {children}
+        </main>
       </div>
       <footer className="border-t border-gray-200 dark:border-gray-700 py-8 text-sm text-gray-500 dark:text-gray-400 w-full">
         <div className="max-w-4xl mx-auto px-6 w-full">

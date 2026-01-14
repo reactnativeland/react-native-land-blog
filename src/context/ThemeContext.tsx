@@ -33,11 +33,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
-  return (
-    <ThemeContext value={{ theme, setTheme }}>
-      {children}
-    </ThemeContext>
-  );
+  return <ThemeContext value={{ theme, setTheme }}>{children}</ThemeContext>;
 }
 
 export function useTheme() {

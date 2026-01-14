@@ -7,7 +7,9 @@ export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
 /**
  * Normalizes a language string to a supported language, defaulting to 'en'
  */
-export function normalizeLanguage(lang: string | undefined | null): SupportedLanguage {
+export function normalizeLanguage(
+  lang: string | undefined | null
+): SupportedLanguage {
   if (!lang) return DEFAULT_LANGUAGE;
   return SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage)
     ? (lang as SupportedLanguage)
@@ -17,7 +19,9 @@ export function normalizeLanguage(lang: string | undefined | null): SupportedLan
 /**
  * Gets the alternate language (switches between en and pt-BR)
  */
-export function getAlternateLanguage(lang: SupportedLanguage): SupportedLanguage {
+export function getAlternateLanguage(
+  lang: SupportedLanguage
+): SupportedLanguage {
   return lang === 'pt-BR' ? 'en' : 'pt-BR';
 }
 

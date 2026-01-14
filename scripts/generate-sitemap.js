@@ -18,10 +18,7 @@ const findDefaultLanguageUrl = (hreflang, fallback) => {
 
 // Read post metadata
 const postsEn = JSON.parse(
-  fs.readFileSync(
-    path.join(__dirname, '../src/locales/posts/en.json'),
-    'utf-8'
-  )
+  fs.readFileSync(path.join(__dirname, '../src/locales/posts/en.json'), 'utf-8')
 );
 const postsPtBr = JSON.parse(
   fs.readFileSync(
@@ -76,14 +73,14 @@ postsPtBr.forEach((post) => {
 allPosts.forEach((post) => {
   const postUrl = `${SITE_URL}/posts/${post.slug}`;
   const hreflang = [];
-  
+
   if (post.hasEn) {
     hreflang.push({ lang: 'en', href: postUrl });
   }
   if (post.hasPtBr) {
     hreflang.push({ lang: 'pt-BR', href: postUrl });
   }
-  
+
   urls.push({
     loc: postUrl,
     changefreq: 'weekly',
