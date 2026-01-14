@@ -31,9 +31,7 @@
   "theme": {
     "light": "Light",
     "dark": "Dark",
-    "system": "Auto",
-    "ariaLabel": "Current theme: {{theme}}. Click to change.",
-    "title": "Theme: {{theme}} ({{resolvedTheme}} active)"
+    "ariaLabel": "Current theme: {{theme}}. Click to change."
   },
   "notFound": {
     "title": "Page not found",
