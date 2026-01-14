@@ -1,25 +1,34 @@
-import { useTransition } from 'react';
+import { ThemePreference, useTheme } from '@context';
 import { useTranslation } from '@i18n';
-import { useTheme } from '@context';
-import { MoonIcon, SunIcon } from '@icons';
+import { LaptopIcon, MoonIcon, SunIcon } from '@icons';
+import { useTransition } from 'react';
+
+const themes: ThemePreference[] = ['light', 'dark', 'system'];
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { preference, setTheme } = useTheme();
   const { t } = useTranslation();
   const [isPending, startTransition] = useTransition();
 
-  const toggleTheme = () => {
+  const cycleTheme = () => {
     startTransition(() => {
-      setTheme(theme === 'light' ? 'dark' : 'light');
+      const currentIndex = themes.indexOf(preference);
+      const nextIndex = (currentIndex + 1) % themes.length;
+      setTheme(themes[nextIndex]);
     });
   };
 
-  const label = t(`theme.${theme}`);
-  const Icon = theme === 'light' ? SunIcon : MoonIcon;
+  const label = t(`theme.${preference}`);
+  const Icon =
+    preference === 'light'
+      ? SunIcon
+      : preference === 'dark'
+        ? MoonIcon
+        : LaptopIcon;
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={cycleTheme}
       disabled={isPending}
       className="px-3 py-1.5 h-8 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed min-w-[60px]"
       aria-label={t('theme.ariaLabel', { theme: label })}

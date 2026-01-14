@@ -8,6 +8,14 @@ html {
   scrollbar-gutter: stable;
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
+
 /* Modern font family */
 body {
   font-family:

@@ -219,16 +219,16 @@ function Post() {
         href: string;
         hreflang?: string;
       }> = [
-          {
-            rel: 'canonical',
-            href: postUrl,
-          },
-          {
-            rel: 'alternate',
-            hreflang: langUtils.htmlLang,
-            href: postUrl,
-          },
-        ];
+        {
+          rel: 'canonical',
+          href: postUrl,
+        },
+        {
+          rel: 'alternate',
+          hreflang: langUtils.htmlLang,
+          href: postUrl,
+        },
+      ];
 
       // Add alternate language link if available
       if (alternatePost) {
@@ -251,11 +251,11 @@ function Post() {
         link: linkTags,
         script: articleStructuredData
           ? [
-            {
-              type: 'application/ld+json',
-              children: JSON.stringify(articleStructuredData),
-            },
-          ]
+              {
+                type: 'application/ld+json',
+                children: JSON.stringify(articleStructuredData),
+              },
+            ]
           : [],
       };
     }, [

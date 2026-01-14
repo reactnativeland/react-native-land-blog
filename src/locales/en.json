@@ -31,6 +31,7 @@
   "theme": {
     "light": "Light",
     "dark": "Dark",
+    "system": "Auto",
     "ariaLabel": "Current theme: {{theme}}. Click to change."
   },
   "notFound": {

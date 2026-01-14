@@ -3,37 +3,79 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
+  useSyncExternalStore,
 } from 'react';
 
-export type Theme = 'light' | 'dark';
+export type ThemePreference = 'light' | 'dark' | 'system';
+export type ResolvedTheme = 'light' | 'dark';
 
 interface ThemeContextValue {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
+  preference: ThemePreference;
+  resolvedTheme: ResolvedTheme;
+  setTheme: (theme: ThemePreference) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
-
-export const DEFAULT_THEME: Theme = 'light';
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
+function getSystemTheme(): ResolvedTheme {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+}
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
+function getInitialPreference(): ThemePreference {
+  const stored = localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark' || stored === 'system') {
+    return stored;
+  }
+  return 'system';
+}
+
+// Subscribe to system theme changes
+function subscribeToSystemTheme(callback: () => void) {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  mediaQuery.addEventListener('change', callback);
+  return () => mediaQuery.removeEventListener('change', callback);
+}
+
+export function ThemeProvider({ children }: ThemeProviderProps) {
+  const [preference, setPreference] =
+    useState<ThemePreference>(getInitialPreference);
+
+  // Use useSyncExternalStore to subscribe to system theme changes
+  const systemTheme = useSyncExternalStore(
+    subscribeToSystemTheme,
+    getSystemTheme,
+    () => 'light' as ResolvedTheme // Server fallback
+  );
+
+  const resolvedTheme = useMemo<ResolvedTheme>(() => {
+    return preference === 'system' ? systemTheme : preference;
+  }, [preference, systemTheme]);
+
+  const setTheme = (newTheme: ThemePreference) => {
+    setPreference(newTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
-  // Apply theme class to document
+  // Apply theme class and color-scheme to document
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(resolvedTheme);
+    document.documentElement.style.colorScheme = resolvedTheme;
+  }, [resolvedTheme]);
 
-  return <ThemeContext value={{ theme, setTheme }}>{children}</ThemeContext>;
+  return (
+    <ThemeContext value={{ preference, resolvedTheme, setTheme }}>
+      {children}
+    </ThemeContext>
+  );
 }
 
 export function useTheme() {
