@@ -75,10 +75,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   // Apply theme class to document
   useEffect(() => {
     const root = document.documentElement;
+    const hasDarkClass = root.classList.contains('dark');
     if (resolvedTheme === 'dark') {
-      root.classList.add('dark');
+      if (!hasDarkClass) root.classList.add('dark');
     } else {
-      root.classList.remove('dark');
+      if (hasDarkClass) root.classList.remove('dark');
     }
   }, [resolvedTheme]);
 
