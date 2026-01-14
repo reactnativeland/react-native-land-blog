@@ -22,6 +22,7 @@ export default defineConfig({
       '@icons': fileURLToPath(
         new URL('./src/components/icons', import.meta.url)
       ),
+      '@config': fileURLToPath(new URL('./src/config', import.meta.url)),
     },
   },
   build: {

@@ -3,14 +3,13 @@ import { ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from '@i18n';
 import { Link, useLocation } from 'react-router-dom';
 import { getLanguageUtils } from '@utils';
+import { config } from '@config/env';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 
 interface LayoutProps {
   children: ReactNode;
 }
-
-const SITE_URL = 'https://reactnative.land';
 
 function Layout({ children }: LayoutProps) {
   const { t, i18n } = useTranslation();
@@ -22,7 +21,7 @@ function Layout({ children }: LayoutProps) {
   );
 
   // Build current URL
-  const currentUrl = `${SITE_URL}${location.pathname}`;
+  const currentUrl = `${config.siteUrl}${location.pathname}`;
 
   // Build alternate URL (for hreflang)
   const alternateUrl = currentUrl; // Same URL, different language
@@ -41,8 +40,8 @@ function Layout({ children }: LayoutProps) {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'React Native Land',
-      url: SITE_URL,
-      logo: `${SITE_URL}/logo.jpg`,
+      url: config.siteUrl,
+      logo: `${config.siteUrl}/logo.jpg`,
       sameAs: ['https://github.com/reactnativeland'],
       description: t('site.description'),
     };
@@ -51,21 +50,21 @@ function Layout({ children }: LayoutProps) {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: t('site.title'),
-      url: SITE_URL,
+      url: config.siteUrl,
       description: t('site.description'),
       publisher: {
         '@type': 'Organization',
         name: 'React Native Land',
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_URL}/logo.jpg`,
+          url: `${config.siteUrl}/logo.jpg`,
         },
       },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+          urlTemplate: `${config.siteUrl}/?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },
@@ -88,7 +87,7 @@ function Layout({ children }: LayoutProps) {
         { property: 'og:url', content: currentUrl },
         { property: 'og:title', content: t('site.title') },
         { property: 'og:description', content: t('site.description') },
-        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:image', content: `${config.siteUrl}/logo.jpg` },
         { property: 'og:site_name', content: t('site.title') },
         { property: 'og:locale', content: langUtils.ogLocale },
         {
@@ -100,7 +99,7 @@ function Layout({ children }: LayoutProps) {
         { name: 'twitter:url', content: currentUrl },
         { name: 'twitter:title', content: t('site.title') },
         { name: 'twitter:description', content: t('site.description') },
-        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+        { name: 'twitter:image', content: `${config.siteUrl}/logo.jpg` },
       ];
 
       const linkTags = [
@@ -127,7 +126,7 @@ function Layout({ children }: LayoutProps) {
         {
           rel: 'alternate',
           hreflang: 'x-default',
-          href: `${SITE_URL}${location.pathname}`,
+          href: `${config.siteUrl}${location.pathname}`,
         },
       ];
 
@@ -186,7 +185,7 @@ function Layout({ children }: LayoutProps) {
             </p>
             <div className="flex gap-6 justify-center">
               <a
-                href="https://github.com/reactnativeland"
+                href={config.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
@@ -205,10 +204,10 @@ function Layout({ children }: LayoutProps) {
             <div className="flex flex-col min-[321px]:flex-row items-center justify-center gap-1 text-center">
               <span>{t('footer.email')}</span>
               <a
-                href="mailto:rick@reactnative.land"
+                href={`mailto:${config.siteEmail}`}
                 className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors font-medium"
               >
-                rick@reactnative.land
+                {config.siteEmail}
               </a>
             </div>
             <p className="text-xs text-center">

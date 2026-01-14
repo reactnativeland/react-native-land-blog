@@ -17,6 +17,7 @@ import {
   normalizeLanguage,
   toFileSuffix,
 } from '@utils';
+import { config } from '@config/env';
 import './Post.css';
 
 interface PostData {
@@ -25,8 +26,6 @@ interface PostData {
   fileName: string;
   excerpt?: string;
 }
-
-const SITE_URL = 'https://reactnative.land';
 
 // Lazy load post metadata - only load the current language
 const loadPostsMetadata = async (
@@ -120,7 +119,7 @@ function Post() {
   );
 
   // Build URLs (safe even if post is undefined)
-  const postUrl = slug ? `${SITE_URL}/posts/${slug}` : '';
+  const postUrl = slug ? `${config.siteUrl}/posts/${slug}` : '';
 
   // Create rich description (safe even if post is undefined)
   const metaDescription = useMemo(
@@ -147,20 +146,20 @@ function Post() {
       '@type': 'BlogPosting',
       headline: post.title,
       description: metaDescription,
-      image: `${SITE_URL}/logo.jpg`,
+      image: `${config.siteUrl}/logo.jpg`,
       datePublished: publishedDate,
       dateModified: publishedDate,
       author: {
         '@type': 'Organization',
         name: 'React Native Land',
-        url: SITE_URL,
+        url: config.siteUrl,
       },
       publisher: {
         '@type': 'Organization',
         name: 'React Native Land',
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_URL}/logo.jpg`,
+          url: `${config.siteUrl}/logo.jpg`,
         },
       },
       mainEntityOfPage: {
@@ -192,7 +191,7 @@ function Post() {
         { property: 'og:url', content: postUrl },
         { property: 'og:title', content: `${post.title} - ${t('site.title')}` },
         { property: 'og:description', content: metaDescription },
-        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:image', content: `${config.siteUrl}/logo.jpg` },
         { property: 'og:site_name', content: t('site.title') },
         { property: 'og:locale', content: langUtils.ogLocale },
         {
@@ -212,7 +211,7 @@ function Post() {
           content: `${post.title} - ${t('site.title')}`,
         },
         { name: 'twitter:description', content: metaDescription },
-        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+        { name: 'twitter:image', content: `${config.siteUrl}/logo.jpg` },
       ];
 
       const linkTags: Array<{
@@ -220,16 +219,16 @@ function Post() {
         href: string;
         hreflang?: string;
       }> = [
-        {
-          rel: 'canonical',
-          href: postUrl,
-        },
-        {
-          rel: 'alternate',
-          hreflang: langUtils.htmlLang,
-          href: postUrl,
-        },
-      ];
+          {
+            rel: 'canonical',
+            href: postUrl,
+          },
+          {
+            rel: 'alternate',
+            hreflang: langUtils.htmlLang,
+            href: postUrl,
+          },
+        ];
 
       // Add alternate language link if available
       if (alternatePost) {
@@ -252,11 +251,11 @@ function Post() {
         link: linkTags,
         script: articleStructuredData
           ? [
-              {
-                type: 'application/ld+json',
-                children: JSON.stringify(articleStructuredData),
-              },
-            ]
+            {
+              type: 'application/ld+json',
+              children: JSON.stringify(articleStructuredData),
+            },
+          ]
           : [],
       };
     }, [
