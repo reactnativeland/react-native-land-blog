@@ -1,6 +1,6 @@
 import { useHead } from '@unhead/react';
 import { ReactNode, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@i18n';
 import { Link, useLocation } from 'react-router-dom';
 import { getLanguageUtils } from '@utils';
 import LanguageSwitcher from './LanguageSwitcher';

@@ -1,14 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
 import { ErrorBoundary, Layout } from '@components';
 import { ThemeProvider } from '@context';
+import { I18nProvider, useTranslation } from '@i18n';
 
 const Home = lazy(() => import('./pages/Home'));
 const Post = lazy(() => import('./pages/Post'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-function App() {
+function AppContent() {
   const { t } = useTranslation();
 
   return (
@@ -25,6 +25,14 @@ function App() {
         </Layout>
       </ThemeProvider>
     </ErrorBoundary>
+  );
+}
+
+function App() {
+  return (
+    <I18nProvider>
+      <AppContent />
+    </I18nProvider>
   );
 }
 

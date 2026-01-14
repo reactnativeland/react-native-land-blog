@@ -1,6 +1,6 @@
 import { useHead } from '@unhead/react';
 import { ComponentType, lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@i18n';
 import { Link, useParams } from 'react-router-dom';
 import { formatDate, DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '@utils';
 import './Post.css';

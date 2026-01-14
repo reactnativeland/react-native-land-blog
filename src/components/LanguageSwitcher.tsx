@@ -1,5 +1,5 @@
 import { useTransition } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@i18n';
 import { getAlternateLanguage, normalizeLanguage, toDisplayLabel } from '@utils';
 
 function LanguageSwitcher() {

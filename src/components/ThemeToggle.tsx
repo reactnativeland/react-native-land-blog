@@ -1,5 +1,5 @@
 import React, { useTransition } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@i18n';
 import { Theme, useTheme } from '@context';
 import { LaptopIcon } from './icons/LaptopIcon';
 import { MoonIcon } from './icons/MoonIcon';
