@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 // Blog configuration
 const SITE_URL = 'https://reactnative.land';
-const BLOG_TITLE = 'React Native Land Blog';
+const BLOG_TITLE = 'React Native Land';
 const BLOG_DESCRIPTION = 'A blog about React Native development';
 const AUTHOR = {
   name: 'React Native Land',

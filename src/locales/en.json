@@ -1,10 +1,10 @@
 {
   "site": {
-    "title": "React Native Land Blog",
+    "title": "React Native Land",
     "description": "A blog about React Native development"
   },
   "header": {
-    "title": "React Native Land Blog"
+    "title": "React Native Land"
   },
   "footer": {
     "tagline": "Building better mobile apps, one article at a time.",
@@ -14,7 +14,7 @@
     "copyright": "© {{year}} React Native Land. All rights reserved."
   },
   "home": {
-    "title": "React Native Land Blog"
+    "title": "React Native Land"
   },
   "post": {
     "backToHome": "Back to home",

@@ -1,6 +1,6 @@
 {
     "version": "https://jsonfeed.org/version/1",
-    "title": "React Native Land Blog",
+    "title": "React Native Land",
     "home_page_url": "https://reactnative.land",
     "feed_url": "https://reactnative.land/feed.json",
     "description": "A blog about React Native development",

@@ -100,7 +100,7 @@ function Post() {
       post?.excerpt
         ? `${post.excerpt} | React Native development blog`
         : post
-          ? `Read about ${post.title} on React Native Land Blog. Learn React Native, mobile app development, and best practices.`
+          ? `Read about ${post.title} on React Native Land. Learn React Native, mobile app development, and best practices.`
           : '',
     [post]
   );
