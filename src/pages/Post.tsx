@@ -215,17 +215,21 @@ function Post() {
         { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
       ];
 
-      const linkTags = [
-        {
-          rel: 'canonical',
-          href: postUrl,
-        },
-        {
-          rel: 'alternate',
-          hreflang: langUtils.htmlLang,
-          href: postUrl,
-        },
-      ];
+      const linkTags: Array<{
+        rel: string;
+        href: string;
+        hreflang?: string;
+      }> = [
+          {
+            rel: 'canonical',
+            href: postUrl,
+          },
+          {
+            rel: 'alternate',
+            hreflang: langUtils.htmlLang,
+            href: postUrl,
+          },
+        ];
 
       // Add alternate language link if available
       if (alternatePost) {
@@ -238,7 +242,7 @@ function Post() {
 
       linkTags.push({
         rel: 'alternate',
-        hreflang: 'x-default' as const,
+        hreflang: 'x-default',
         href: postUrl,
       });
 
@@ -248,11 +252,11 @@ function Post() {
         link: linkTags,
         script: articleStructuredData
           ? [
-              {
-                type: 'application/ld+json',
-                children: JSON.stringify(articleStructuredData),
-              },
-            ]
+            {
+              type: 'application/ld+json',
+              children: JSON.stringify(articleStructuredData),
+            },
+          ]
           : [],
       };
     }, [
