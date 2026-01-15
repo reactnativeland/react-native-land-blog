@@ -11,7 +11,12 @@ const SITE_URL = process.env.VITE_SITE_URL || env.VITE_SITE_URL;
 
 if (!SITE_URL) {
   console.error('VITE_SITE_URL environment variable is required');
-  console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('VITE') || k.includes('SITE')).join(', ') || 'none');
+  console.error(
+    'Available env vars:',
+    Object.keys(process.env)
+      .filter((k) => k.includes('VITE') || k.includes('SITE'))
+      .join(', ') || 'none'
+  );
   console.error('process.env.VITE_SITE_URL:', process.env.VITE_SITE_URL);
   console.error('env.VITE_SITE_URL:', env.VITE_SITE_URL);
   process.exit(1);
@@ -106,25 +111,25 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls
-    .map((url) => {
-      let urlXml = `  <url>
+  .map((url) => {
+    let urlXml = `  <url>
     <loc>${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>`;
 
-      if (url.hreflang) {
-        url.hreflang.forEach((hreflang) => {
-          urlXml += `\n    <xhtml:link rel="alternate" hreflang="${hreflang.lang}" href="${hreflang.href}" />`;
-        });
-        // Add x-default
-        urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${findDefaultLanguageUrl(url.hreflang, url.loc)}" />`;
-      }
+    if (url.hreflang) {
+      url.hreflang.forEach((hreflang) => {
+        urlXml += `\n    <xhtml:link rel="alternate" hreflang="${hreflang.lang}" href="${hreflang.href}" />`;
+      });
+      // Add x-default
+      urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${findDefaultLanguageUrl(url.hreflang, url.loc)}" />`;
+    }
 
-      urlXml += `\n  </url>`;
-      return urlXml;
-    })
-    .join('\n')}
+    urlXml += `\n  </url>`;
+    return urlXml;
+  })
+  .join('\n')}
 </urlset>`;
 
 // Ensure public directory exists
