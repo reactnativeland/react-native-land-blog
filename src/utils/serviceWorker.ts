@@ -114,46 +114,52 @@ export function unregister() {
  * Run this in browser console: window.uninstallPWA()
  */
 export function exposeUninstallFunction(): void {
-  if (typeof window !== 'undefined') {
-    const win = window as WindowWithUninstallPWA;
-    win.uninstallPWA = async () => {
-      console.log('Uninstalling PWA...');
+  if (typeof window === 'undefined') {
+    return;
+  }
 
-      if ('serviceWorker' in navigator) {
-        try {
-          const registrations =
-            await navigator.serviceWorker.getRegistrations();
-          for (const registration of registrations) {
-            await registration.unregister();
-            console.log('Service worker unregistered');
-          }
-        } catch (error) {
-          console.error('Error unregistering service worker:', error);
+  const win = window as WindowWithUninstallPWA;
+  win.uninstallPWA = async () => {
+    console.log('Uninstalling PWA...');
+
+    if ('serviceWorker' in navigator) {
+      try {
+        const registrations =
+          await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+          await registration.unregister();
+          console.log('Service worker unregistered');
         }
+      } catch (error) {
+        console.error('Error unregistering service worker:', error);
       }
+    }
 
-      if ('caches' in window) {
-        try {
-          const cacheNames = await caches.keys();
-          await Promise.all(
-            cacheNames.map((cacheName) => {
-              console.log(`Deleting cache: ${cacheName}`);
-              return caches.delete(cacheName);
-            })
-          );
-          console.log('All caches cleared');
-        } catch (error) {
-          console.error('Error clearing caches:', error);
-        }
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames.map((cacheName) => {
+            console.log(`Deleting cache: ${cacheName}`);
+            return caches.delete(cacheName);
+          })
+        );
+        console.log('All caches cleared');
+      } catch (error) {
+        console.error('Error clearing caches:', error);
       }
+    }
 
-      localStorage.removeItem('pwa-install-dismissed');
-      console.log('LocalStorage cleared');
+    localStorage.removeItem('pwa-install-dismissed');
+    console.log('LocalStorage cleared');
 
-      console.log(
-        'PWA uninstalled! Please uninstall the app manually from your device/browser.'
-      );
-      console.log('Then reload the page and reinstall.');
-    };
+    console.log(
+      'PWA uninstalled! Please uninstall the app manually from your device/browser.'
+    );
+    console.log('Then reload the page and reinstall.');
+  };
+
+  if (import.meta.env.DEV) {
+    console.log('window.uninstallPWA() is now available');
   }
 }

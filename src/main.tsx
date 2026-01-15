@@ -19,6 +19,9 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );
 
+// Expose uninstall function immediately (available in both dev and production)
+exposeUninstallFunction();
+
 register({
   onSuccess: () => {
     console.log('Service worker registered successfully');
@@ -27,5 +30,3 @@ register({
     console.log('New service worker available');
   },
 });
-
-exposeUninstallFunction();
