@@ -4,7 +4,7 @@
         <title>React Native Land</title>
         <link>https://reactnative.land</link>
         <description>A blog about React Native development</description>
-        <lastBuildDate>Wed, 14 Jan 2026 01:40:59 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 15 Jan 2026 00:31:16 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en</language>
@@ -25,7 +25,7 @@
 I hope I can write about React Native development here!
 
 _Stay tuned!_]]></content:encoded>
-            <author>hello@reactnative.land (React Native Land)</author>
+            <author>rick@reactnative.land (React Native Land)</author>
         </item>
         <item>
             <title><![CDATA[Um blog]]></title>
@@ -38,7 +38,7 @@ _Stay tuned!_]]></content:encoded>
 Espero poder escrever sobre React Native aqui!
 
 _Fique ligado!_]]></content:encoded>
-            <author>hello@reactnative.land (React Native Land)</author>
+            <author>rick@reactnative.land (React Native Land)</author>
         </item>
     </channel>
 </rss>

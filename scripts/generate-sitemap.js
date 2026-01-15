@@ -1,3 +1,4 @@
+import { loadEnv } from 'vite';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -5,7 +6,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SITE_URL = 'https://reactnative.land';
+// Load environment variables using Vite's loadEnv
+const env = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
+
+const SITE_URL = env.VITE_SITE_URL;
+
+if (!SITE_URL) {
+  console.error('VITE_SITE_URL environment variable is required');
+  process.exit(1);
+}
+
 const DEFAULT_LANGUAGE = 'en';
 
 /**
@@ -18,10 +28,7 @@ const findDefaultLanguageUrl = (hreflang, fallback) => {
 
 // Read post metadata
 const postsEn = JSON.parse(
-  fs.readFileSync(
-    path.join(__dirname, '../src/locales/posts/en.json'),
-    'utf-8'
-  )
+  fs.readFileSync(path.join(__dirname, '../src/locales/posts/en.json'), 'utf-8')
 );
 const postsPtBr = JSON.parse(
   fs.readFileSync(
@@ -76,14 +83,14 @@ postsPtBr.forEach((post) => {
 allPosts.forEach((post) => {
   const postUrl = `${SITE_URL}/posts/${post.slug}`;
   const hreflang = [];
-  
+
   if (post.hasEn) {
     hreflang.push({ lang: 'en', href: postUrl });
   }
   if (post.hasPtBr) {
     hreflang.push({ lang: 'pt-BR', href: postUrl });
   }
-  
+
   urls.push({
     loc: postUrl,
     changefreq: 'weekly',

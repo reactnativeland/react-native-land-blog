@@ -24,7 +24,11 @@
       "@context/*": ["src/context/*"],
       "@locales": ["src/locales"],
       "@locales/*": ["src/locales/*"],
-      "@i18n": ["src/i18n"]
+      "@i18n": ["src/i18n"],
+      "@icons": ["src/components/icons"],
+      "@icons/*": ["src/components/icons/*"],
+      "@config": ["src/config"],
+      "@config/*": ["src/config/*"]
     },
 
     /* Linting */

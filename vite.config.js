@@ -1,7 +1,7 @@
-import { fileURLToPath, URL } from 'node:url';
 import mdx from '@mdx-js/rollup';
 import rehypeShiki from '@shikijs/rehype';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -13,10 +13,16 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
-      '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+      '@components': fileURLToPath(
+        new URL('./src/components', import.meta.url)
+      ),
       '@context': fileURLToPath(new URL('./src/context', import.meta.url)),
       '@locales': fileURLToPath(new URL('./src/locales', import.meta.url)),
       '@i18n': fileURLToPath(new URL('./src/i18n', import.meta.url)),
+      '@icons': fileURLToPath(
+        new URL('./src/components/icons', import.meta.url)
+      ),
+      '@config': fileURLToPath(new URL('./src/config', import.meta.url)),
     },
   },
   build: {
@@ -27,8 +33,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Core React - loaded on every page
+          'react-vendor': ['react', 'react-dom'],
+          // Router - loaded on every page but separate chunk
+          router: ['react-router-dom'],
+          // Head management - loaded on every page
           head: ['@unhead/react'],
+          // Syntax highlighting - only needed for post pages
           shiki: ['shiki', '@shikijs/rehype'],
         },
       },

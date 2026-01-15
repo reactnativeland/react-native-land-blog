@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@i18n';
 import { Link, useLocation } from 'react-router-dom';
 import { formatDateShort, DEFAULT_LANGUAGE, getLanguageUtils } from '@utils';
+import { config } from '@config/env';
 
 interface Post {
   slug: string;
@@ -22,8 +23,6 @@ const loadPostsData = async (lang: string): Promise<Post[]> => {
   return postsEn;
 };
 
-const SITE_URL = 'https://reactnative.land';
-
 function Home() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -31,18 +30,23 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
+    let cancelled = false;
     loadPostsData(i18n.language || DEFAULT_LANGUAGE).then((loadedPosts) => {
-      setPosts(loadedPosts);
-      setIsLoading(false);
+      if (!cancelled) {
+        setPosts(loadedPosts);
+        setIsLoading(false);
+      }
     });
+    return () => {
+      cancelled = true;
+    };
   }, [i18n.language]);
 
   const langUtils = useMemo(
     () => getLanguageUtils(i18n.language),
     [i18n.language]
   );
-  const currentUrl = `${SITE_URL}${location.pathname}`;
+  const currentUrl = `${config.siteUrl}${location.pathname}`;
 
   // Enhanced description with keywords
   const metaDescription =
@@ -64,7 +68,7 @@ function Home() {
         { property: 'og:url', content: currentUrl },
         { property: 'og:title', content: t('home.title') },
         { property: 'og:description', content: metaDescription },
-        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:image', content: `${config.siteUrl}/logo.jpg` },
         { property: 'og:site_name', content: t('site.title') },
         { property: 'og:locale', content: langUtils.ogLocale },
         {
@@ -76,7 +80,7 @@ function Home() {
         { name: 'twitter:url', content: currentUrl },
         { name: 'twitter:title', content: t('home.title') },
         { name: 'twitter:description', content: metaDescription },
-        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+        { name: 'twitter:image', content: `${config.siteUrl}/logo.jpg` },
       ];
 
       const linkTags = [
@@ -121,10 +125,11 @@ function Home() {
             key={post.slug}
             itemScope
             itemType="https://schema.org/BlogPosting"
-            className={`pb-8 ${posts.length > 1 && index < posts.length - 1
-              ? 'border-b border-gray-200 dark:border-gray-700'
-              : ''
-              }`}
+            className={`pb-8 ${
+              posts.length > 1 && index < posts.length - 1
+                ? 'border-b border-gray-200 dark:border-gray-700'
+                : ''
+            }`}
           >
             <Link to={`/posts/${post.slug}`} className="block group">
               <h2

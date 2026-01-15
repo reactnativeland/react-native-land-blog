@@ -8,59 +8,96 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+interface WindowWithInstallPrompt extends Window {
+  showInstallPrompt?: () => void;
+  hideInstallPrompt?: () => void;
+  checkPWAStatus?: () => void;
+  resetInstallPrompt?: () => void;
+}
+
 export function InstallPrompt() {
   const { t } = useTranslation();
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [isInstalled, setIsInstalled] = useState(false);
+  // Initialize isInstalled state based on standalone mode check
+  const [isInstalled, setIsInstalled] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(display-mode: standalone)').matches
+      : false
+  );
   const [forceShow, setForceShow] = useState(false);
 
   // Dev helper: expose reset function and manual show function to window for testing
   useEffect(() => {
     exposeResetFunction();
     if (import.meta.env.DEV) {
-      (window as any).showInstallPrompt = () => {
+      const win = window as WindowWithInstallPrompt;
+      win.showInstallPrompt = () => {
         setForceShow(true);
         setShowPrompt(true);
-        console.log('[InstallPrompt] Install prompt manually triggered for testing');
+        console.log(
+          '[InstallPrompt] Install prompt manually triggered for testing'
+        );
       };
-      (window as any).hideInstallPrompt = () => {
+      win.hideInstallPrompt = () => {
         setForceShow(false);
         setShowPrompt(false);
       };
-      (window as any).checkPWAStatus = () => {
+      win.checkPWAStatus = () => {
         console.log('=== PWA Installation Status Check ===');
         console.log('1. Service Worker Support:', 'serviceWorker' in navigator);
-        console.log('2. Manifest Link:', document.querySelector('link[rel="manifest"]') ? 'Found' : 'NOT FOUND');
-        console.log('3. Is Standalone:', window.matchMedia('(display-mode: standalone)').matches);
+        console.log(
+          '2. Manifest Link:',
+          document.querySelector('link[rel="manifest"]') ? 'Found' : 'NOT FOUND'
+        );
+        console.log(
+          '3. Is Standalone:',
+          window.matchMedia('(display-mode: standalone)').matches
+        );
         console.log('4. Current URL:', window.location.href);
-        console.log('5. Is HTTPS/localhost:', window.location.protocol === 'https:' || window.location.hostname === 'localhost');
+        console.log(
+          '5. Is HTTPS/localhost:',
+          window.location.protocol === 'https:' ||
+            window.location.hostname === 'localhost'
+        );
 
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            console.log('6. Service Worker Registrations:', registrations.length);
+          navigator.serviceWorker.getRegistrations().then((registrations) => {
+            console.log(
+              '6. Service Worker Registrations:',
+              registrations.length
+            );
             registrations.forEach((reg, i) => {
-              console.log(`   SW ${i + 1}:`, reg.scope, reg.active ? 'Active' : 'Not Active');
+              console.log(
+                `   SW ${i + 1}:`,
+                reg.scope,
+                reg.active ? 'Active' : 'Not Active'
+              );
             });
           });
         }
 
         fetch('/manifest.json')
-          .then(r => r.json())
-          .then(manifest => {
+          .then((r) => r.json())
+          .then((manifest) => {
             console.log('7. Manifest:', manifest);
           })
-          .catch(e => console.error('7. Manifest Error:', e));
+          .catch((e) => console.error('7. Manifest Error:', e));
       };
     }
   }, []);
 
   useEffect(() => {
     // Check if app is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true);
+    const isStandalone = window.matchMedia(
+      '(display-mode: standalone)'
+    ).matches;
+    if (isStandalone) {
       if (import.meta.env.DEV) {
-        console.log('[InstallPrompt] App is already installed (standalone mode)');
+        console.log(
+          '[InstallPrompt] App is already installed (standalone mode)'
+        );
       }
       return;
     }
@@ -69,11 +106,14 @@ export function InstallPrompt() {
     const dismissed = localStorage.getItem('pwa-install-dismissed');
     if (dismissed) {
       const dismissedTime = parseInt(dismissed, 10);
-      const daysSinceDismissed = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
+      const daysSinceDismissed =
+        (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
       // Show again after 7 days
       if (daysSinceDismissed < 7) {
         if (import.meta.env.DEV) {
-          console.log(`[InstallPrompt] Prompt was dismissed ${Math.round(daysSinceDismissed)} days ago. Will show again in ${Math.round(7 - daysSinceDismissed)} days.`);
+          console.log(
+            `[InstallPrompt] Prompt was dismissed ${Math.round(daysSinceDismissed)} days ago. Will show again in ${Math.round(7 - daysSinceDismissed)} days.`
+          );
         }
         return;
       }
@@ -90,8 +130,13 @@ export function InstallPrompt() {
 
     if (import.meta.env.DEV) {
       console.log('[InstallPrompt] Listening for beforeinstallprompt event...');
-      console.log('[InstallPrompt] Service worker support:', 'serviceWorker' in navigator);
-      console.log('[InstallPrompt] To test manually, run: window.showInstallPrompt()');
+      console.log(
+        '[InstallPrompt] Service worker support:',
+        'serviceWorker' in navigator
+      );
+      console.log(
+        '[InstallPrompt] To test manually, run: window.showInstallPrompt()'
+      );
     }
 
     return () => {
@@ -101,10 +146,18 @@ export function InstallPrompt() {
 
   const handleInstall = async () => {
     if (!deferredPrompt && !forceShow) {
-      console.warn('[InstallPrompt] Install prompt not available. Make sure service worker is registered and manifest is valid.');
+      console.warn(
+        '[InstallPrompt] Install prompt not available. Make sure service worker is registered and manifest is valid.'
+      );
       console.log('[InstallPrompt] Checking PWA requirements...');
-      console.log('[InstallPrompt] Service worker:', 'serviceWorker' in navigator ? 'Supported' : 'Not supported');
-      console.log('[InstallPrompt] Manifest:', document.querySelector('link[rel="manifest"]') ? 'Found' : 'Not found');
+      console.log(
+        '[InstallPrompt] Service worker:',
+        'serviceWorker' in navigator ? 'Supported' : 'Not supported'
+      );
+      console.log(
+        '[InstallPrompt] Manifest:',
+        document.querySelector('link[rel="manifest"]') ? 'Found' : 'Not found'
+      );
       return;
     }
 
@@ -130,13 +183,21 @@ export function InstallPrompt() {
       }
     } else if (forceShow) {
       // Test mode - check if we can trigger real prompt
-      console.log('[InstallPrompt] Test mode: Checking for browser install prompt...');
-      console.log('[InstallPrompt] If you see this, the beforeinstallprompt event has not fired yet.');
+      console.log(
+        '[InstallPrompt] Test mode: Checking for browser install prompt...'
+      );
+      console.log(
+        '[InstallPrompt] If you see this, the beforeinstallprompt event has not fired yet.'
+      );
       console.log('[InstallPrompt] Make sure:');
-      console.log('  1. Service worker is registered (check Application > Service Workers)');
+      console.log(
+        '  1. Service worker is registered (check Application > Service Workers)'
+      );
       console.log('  2. Manifest is valid (check Application > Manifest)');
       console.log('  3. You are on HTTPS or localhost');
-      console.log('[InstallPrompt] The prompt will appear automatically when browser detects installability.');
+      console.log(
+        '[InstallPrompt] The prompt will appear automatically when browser detects installability.'
+      );
 
       // Don't hide the prompt in test mode, let user see it
       // setShowPrompt(false);

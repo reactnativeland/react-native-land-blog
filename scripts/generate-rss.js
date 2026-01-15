@@ -1,3 +1,4 @@
+import { loadEnv } from 'vite';
 import { Feed } from 'feed';
 import fs from 'fs';
 import path from 'path';
@@ -6,13 +7,27 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Blog configuration
-const SITE_URL = 'https://reactnative.land';
+// Load environment variables using Vite's loadEnv
+const env = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
+
+// Blog configuration - require environment variables
+const SITE_URL = env.VITE_SITE_URL;
+const SITE_EMAIL = env.VITE_SITE_EMAIL;
+
+if (!SITE_URL) {
+  console.error('VITE_SITE_URL environment variable is required');
+  process.exit(1);
+}
+
+if (!SITE_EMAIL) {
+  console.error('VITE_SITE_EMAIL environment variable is required');
+  process.exit(1);
+}
 const BLOG_TITLE = 'React Native Land';
 const BLOG_DESCRIPTION = 'A blog about React Native development';
 const AUTHOR = {
   name: 'React Native Land',
-  email: 'hello@reactnative.land',
+  email: SITE_EMAIL,
   link: SITE_URL,
 };
 

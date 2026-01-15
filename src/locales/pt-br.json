@@ -31,6 +31,7 @@
   "theme": {
     "light": "Claro",
     "dark": "Escuro",
+    "system": "Auto",
     "ariaLabel": "Tema atual: {{theme}}. Clique para alterar."
   },
   "notFound": {

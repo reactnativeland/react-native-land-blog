@@ -37,7 +37,7 @@ class ErrorBoundary extends Component<Props, State> {
               Something went wrong
             </h1>
             <blockquote className="text-xl italic text-gray-600 dark:text-gray-400 mb-8 border-l-4 border-gray-300 dark:border-gray-600 pl-4">
-              "These fragments I have shored against my ruins."
+              &ldquo;These fragments I have shored against my ruins.&rdquo;
               <footer className="text-sm mt-2 not-italic text-gray-500 dark:text-gray-500">
                 — T.S. Eliot, <cite>The Waste Land</cite>
               </footer>

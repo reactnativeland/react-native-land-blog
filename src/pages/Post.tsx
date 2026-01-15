@@ -1,8 +1,23 @@
+/* eslint-disable react-hooks/static-components */
 import { useHead } from '@unhead/react';
-import { ComponentType, lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import {
+  ComponentType,
+  lazy,
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useTranslation } from '@i18n';
 import { Link, useParams } from 'react-router-dom';
-import { formatDate, DEFAULT_LANGUAGE, getLanguageUtils, normalizeLanguage, toFileSuffix } from '@utils';
+import {
+  formatDate,
+  DEFAULT_LANGUAGE,
+  getLanguageUtils,
+  normalizeLanguage,
+  toFileSuffix,
+} from '@utils';
+import { config } from '@config/env';
 import './Post.css';
 
 interface PostData {
@@ -12,10 +27,10 @@ interface PostData {
   excerpt?: string;
 }
 
-const SITE_URL = 'https://reactnative.land';
-
 // Lazy load post metadata - only load the current language
-const loadPostsMetadata = async (lang: string): Promise<Record<string, PostData>> => {
+const loadPostsMetadata = async (
+  lang: string
+): Promise<Record<string, PostData>> => {
   const normalizedLang = lang === 'pt-BR' ? 'pt-BR' : 'en';
   let posts;
   if (normalizedLang === 'pt-BR') {
@@ -26,15 +41,18 @@ const loadPostsMetadata = async (lang: string): Promise<Record<string, PostData>
     posts = postsEn;
   }
 
-  return posts.reduce((acc, post) => {
-    acc[post.slug] = {
-      title: post.title,
-      date: post.date,
-      fileName: post.fileName,
-      excerpt: post.excerpt,
-    };
-    return acc;
-  }, {} as Record<string, PostData>);
+  return posts.reduce(
+    (acc, post) => {
+      acc[post.slug] = {
+        title: post.title,
+        date: post.date,
+        fileName: post.fileName,
+        excerpt: post.excerpt,
+      };
+      return acc;
+    },
+    {} as Record<string, PostData>
+  );
 };
 
 const postComponentCache = new Map<string, ComponentType>();
@@ -57,8 +75,12 @@ const loadPost = (fileName: string, lang: string): ComponentType => {
 function Post() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const [currentLangPosts, setCurrentLangPosts] = useState<Record<string, PostData>>({});
-  const [alternateLangPosts, setAlternateLangPosts] = useState<Record<string, PostData>>({});
+  const [currentLangPosts, setCurrentLangPosts] = useState<
+    Record<string, PostData>
+  >({});
+  const [alternateLangPosts, setAlternateLangPosts] = useState<
+    Record<string, PostData>
+  >({});
   const [isLoading, setIsLoading] = useState(true);
 
   const langUtils = useMemo(
@@ -67,7 +89,7 @@ function Post() {
   );
 
   useEffect(() => {
-    setIsLoading(true);
+    let cancelled = false;
     const currentLang = i18n.language || DEFAULT_LANGUAGE;
     const alternateLang = langUtils.alternate;
 
@@ -75,10 +97,15 @@ function Post() {
       loadPostsMetadata(currentLang),
       loadPostsMetadata(alternateLang),
     ]).then(([current, alternate]) => {
-      setCurrentLangPosts(current);
-      setAlternateLangPosts(alternate);
-      setIsLoading(false);
+      if (!cancelled) {
+        setCurrentLangPosts(current);
+        setAlternateLangPosts(alternate);
+        setIsLoading(false);
+      }
     });
+    return () => {
+      cancelled = true;
+    };
   }, [i18n.language, langUtils.alternate]);
 
   const post = useMemo(
@@ -92,7 +119,7 @@ function Post() {
   );
 
   // Build URLs (safe even if post is undefined)
-  const postUrl = slug ? `${SITE_URL}/posts/${slug}` : '';
+  const postUrl = slug ? `${config.siteUrl}/posts/${slug}` : '';
 
   // Create rich description (safe even if post is undefined)
   const metaDescription = useMemo(
@@ -108,7 +135,7 @@ function Post() {
   // Format date for structured data (ISO 8601)
   const publishedDate = useMemo(
     () => (post?.date ? new Date(post.date).toISOString() : ''),
-    [post?.date]
+    [post]
   );
 
   // Generate structured data for article (safe even if post is undefined)
@@ -119,20 +146,20 @@ function Post() {
       '@type': 'BlogPosting',
       headline: post.title,
       description: metaDescription,
-      image: `${SITE_URL}/logo.jpg`,
+      image: `${config.siteUrl}/logo.jpg`,
       datePublished: publishedDate,
       dateModified: publishedDate,
       author: {
         '@type': 'Organization',
         name: 'React Native Land',
-        url: SITE_URL,
+        url: config.siteUrl,
       },
       publisher: {
         '@type': 'Organization',
         name: 'React Native Land',
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_URL}/logo.jpg`,
+          url: `${config.siteUrl}/logo.jpg`,
         },
       },
       mainEntityOfPage: {
@@ -144,12 +171,6 @@ function Post() {
 
     return baseArticle;
   }, [post, metaDescription, publishedDate, postUrl]);
-
-  // PostContent (safe even if post is undefined)
-  const PostContent = useMemo(
-    () => (post?.fileName ? loadPost(post.fileName, i18n.language) : null),
-    [post?.fileName, i18n.language]
-  );
 
   // useHead hook - must be called before any conditional returns
   useHead(
@@ -170,7 +191,7 @@ function Post() {
         { property: 'og:url', content: postUrl },
         { property: 'og:title', content: `${post.title} - ${t('site.title')}` },
         { property: 'og:description', content: metaDescription },
-        { property: 'og:image', content: `${SITE_URL}/logo.jpg` },
+        { property: 'og:image', content: `${config.siteUrl}/logo.jpg` },
         { property: 'og:site_name', content: t('site.title') },
         { property: 'og:locale', content: langUtils.ogLocale },
         {
@@ -190,10 +211,14 @@ function Post() {
           content: `${post.title} - ${t('site.title')}`,
         },
         { name: 'twitter:description', content: metaDescription },
-        { name: 'twitter:image', content: `${SITE_URL}/logo.jpg` },
+        { name: 'twitter:image', content: `${config.siteUrl}/logo.jpg` },
       ];
 
-      const linkTags = [
+      const linkTags: Array<{
+        rel: string;
+        href: string;
+        hreflang?: string;
+      }> = [
         {
           rel: 'canonical',
           href: postUrl,
@@ -216,7 +241,7 @@ function Post() {
 
       linkTags.push({
         rel: 'alternate',
-        hreflang: 'x-default' as any,
+        hreflang: 'x-default',
         href: postUrl,
       });
 
@@ -226,11 +251,11 @@ function Post() {
         link: linkTags,
         script: articleStructuredData
           ? [
-            {
-              type: 'application/ld+json',
-              children: JSON.stringify(articleStructuredData),
-            },
-          ]
+              {
+                type: 'application/ld+json',
+                children: JSON.stringify(articleStructuredData),
+              },
+            ]
           : [],
       };
     }, [
@@ -243,6 +268,13 @@ function Post() {
       articleStructuredData,
       alternatePost,
     ])
+  );
+
+  // PostContent (safe even if post is undefined) - call loadPost directly since it's cached
+  // loadPost uses internal caching, so this is safe despite the lint warning
+  const PostContent = useMemo(
+    () => (post?.fileName ? loadPost(post.fileName, i18n.language) : null),
+    [post, i18n.language]
   );
 
   // Now we can do conditional returns after all hooks

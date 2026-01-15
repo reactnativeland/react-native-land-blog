@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import enTranslations from './locales/en.json';
 import ptBrTranslations from './locales/pt-br.json';
-import { DEFAULT_LANGUAGE, normalizeLanguage, type SupportedLanguage } from './utils/language';
+import {
+  DEFAULT_LANGUAGE,
+  normalizeLanguage,
+  type SupportedLanguage,
+} from './utils/language';
 
 type Translations = typeof enTranslations;
 
@@ -13,17 +17,33 @@ const translations: Record<SupportedLanguage, Translations> = {
 // Detect language from browser
 function detectLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
-  const browserLang = navigator.language || (navigator as any).userLanguage;
+  const browserLang =
+    navigator.language ||
+    (navigator as { userLanguage?: string }).userLanguage ||
+    DEFAULT_LANGUAGE;
   return normalizeLanguage(browserLang);
 }
 
 // Get nested value from object by dot notation path
-function getNestedValue(obj: any, path: string): string {
-  return path.split('.').reduce((current, key) => current?.[key], obj) ?? path;
+function getNestedValue(obj: Record<string, unknown>, path: string): string {
+  return (
+    (path
+      .split('.')
+      .reduce(
+        (current, key) =>
+          current && typeof current === 'object' && key in current
+            ? (current as Record<string, unknown>)[key]
+            : undefined,
+        obj as unknown
+      ) as string | undefined) ?? path
+  );
 }
 
 // Simple interpolation: replace {{key}} with values
-function interpolate(str: string, vars: Record<string, string | number>): string {
+function interpolate(
+  str: string,
+  vars: Record<string, string | number>
+): string {
   return str.replace(/\{\{(\w+)\}\}/g, (_, key) => String(vars[key] ?? ''));
 }
 
@@ -63,13 +83,19 @@ export function useTranslation() {
   if (!context) {
     throw new Error('useTranslation must be used within I18nProvider');
   }
-  return { t: context.t, i18n: { language: context.language, changeLanguage: context.changeLanguage } };
+  return {
+    t: context.t,
+    i18n: {
+      language: context.language,
+      changeLanguage: context.changeLanguage,
+    },
+  };
 }
 
 // Export default for compatibility
 const i18n = {
   language: detectLanguage(),
-  changeLanguage: () => { },
+  changeLanguage: () => {},
   t: (key: string, vars?: Record<string, string | number>) => {
     const lang = detectLanguage();
     const translation = getNestedValue(translations[lang], key);
