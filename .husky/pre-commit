@@ -1,4 +1,11 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
-pnpm lint:fix && pnpm format
+echo "🔍 Running lint..."
+pnpm lint:fix || exit 1
+echo "Lint passed!"
+
+echo "Running prettier..."
+pnpm format || exit 1
+echo "Prettier passed!"
+
+echo "✨ All checks passed!"
