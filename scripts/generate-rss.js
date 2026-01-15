@@ -7,12 +7,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables using Vite's loadEnv
 const env = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
-
-// Blog configuration - require environment variables
-const SITE_URL = env.VITE_SITE_URL;
-const SITE_EMAIL = env.VITE_SITE_EMAIL;
+const SITE_URL = process.env.VITE_SITE_URL || env.VITE_SITE_URL;
+const SITE_EMAIL = process.env.VITE_SITE_EMAIL || env.VITE_SITE_EMAIL;
 
 if (!SITE_URL) {
   console.error('VITE_SITE_URL environment variable is required');

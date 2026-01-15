@@ -6,10 +6,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables using Vite's loadEnv
 const env = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
-
-const SITE_URL = env.VITE_SITE_URL;
+const SITE_URL = process.env.VITE_SITE_URL || env.VITE_SITE_URL;
 
 if (!SITE_URL) {
   console.error('VITE_SITE_URL environment variable is required');
@@ -105,25 +103,25 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls
-  .map((url) => {
-    let urlXml = `  <url>
+    .map((url) => {
+      let urlXml = `  <url>
     <loc>${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>`;
 
-    if (url.hreflang) {
-      url.hreflang.forEach((hreflang) => {
-        urlXml += `\n    <xhtml:link rel="alternate" hreflang="${hreflang.lang}" href="${hreflang.href}" />`;
-      });
-      // Add x-default
-      urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${findDefaultLanguageUrl(url.hreflang, url.loc)}" />`;
-    }
+      if (url.hreflang) {
+        url.hreflang.forEach((hreflang) => {
+          urlXml += `\n    <xhtml:link rel="alternate" hreflang="${hreflang.lang}" href="${hreflang.href}" />`;
+        });
+        // Add x-default
+        urlXml += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${findDefaultLanguageUrl(url.hreflang, url.loc)}" />`;
+      }
 
-    urlXml += `\n  </url>`;
-    return urlXml;
-  })
-  .join('\n')}
+      urlXml += `\n  </url>`;
+      return urlXml;
+    })
+    .join('\n')}
 </urlset>`;
 
 // Ensure public directory exists
