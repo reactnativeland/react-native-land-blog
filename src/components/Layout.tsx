@@ -132,8 +132,7 @@ function Layout({ children }: LayoutProps) {
       ];
 
       return {
-        // Don't set title on post pages - let Post component handle it
-        ...(isPostPage ? {} : { title: t('site.title') }),
+        title: isPostPage ? undefined : t('site.title'),
         meta: metaTags,
         link: linkTags,
         script: structuredData.map((data, index) => ({
