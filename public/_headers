@@ -12,11 +12,13 @@
 /*.html
   Content-Type: text/html; charset=utf-8
   Content-Language: en, pt-BR
+  Cache-Control: public, max-age=0, s-maxage=86400, stale-while-revalidate=86400
 
 # Root index.html
 /index.html
   Content-Type: text/html; charset=utf-8
   Content-Language: en, pt-BR
+  Cache-Control: public, max-age=0, s-maxage=86400, stale-while-revalidate=86400
 
 # JavaScript files
 /*.js
@@ -61,32 +63,32 @@
 # XML files (sitemap, RSS, etc.)
 /*.xml
   Content-Type: application/xml; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # JSON files (feed.json, etc.)
 /*.json
   Content-Type: application/json; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # RSS feed
 /rss.xml
   Content-Type: application/rss+xml; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # Atom feed
 /atom.xml
   Content-Type: application/atom+xml; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # Sitemap
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # Robots.txt
 /robots.txt
   Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 # Favicon
 /favicon.ico
