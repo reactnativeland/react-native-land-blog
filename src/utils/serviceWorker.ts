@@ -121,7 +121,8 @@ export function exposeUninstallFunction(): void {
 
       if ('serviceWorker' in navigator) {
         try {
-          const registrations = await navigator.serviceWorker.getRegistrations();
+          const registrations =
+            await navigator.serviceWorker.getRegistrations();
           for (const registration of registrations) {
             await registration.unregister();
             console.log('Service worker unregistered');
@@ -149,7 +150,9 @@ export function exposeUninstallFunction(): void {
       localStorage.removeItem('pwa-install-dismissed');
       console.log('LocalStorage cleared');
 
-      console.log('PWA uninstalled! Please uninstall the app manually from your device/browser.');
+      console.log(
+        'PWA uninstalled! Please uninstall the app manually from your device/browser.'
+      );
       console.log('Then reload the page and reinstall.');
     };
   }
