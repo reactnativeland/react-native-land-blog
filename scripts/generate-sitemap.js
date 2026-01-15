@@ -11,6 +11,9 @@ const SITE_URL = process.env.VITE_SITE_URL || env.VITE_SITE_URL;
 
 if (!SITE_URL) {
   console.error('VITE_SITE_URL environment variable is required');
+  console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('VITE') || k.includes('SITE')).join(', ') || 'none');
+  console.error('process.env.VITE_SITE_URL:', process.env.VITE_SITE_URL);
+  console.error('env.VITE_SITE_URL:', env.VITE_SITE_URL);
   process.exit(1);
 }
 

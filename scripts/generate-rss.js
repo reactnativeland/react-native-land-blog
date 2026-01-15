@@ -13,11 +13,16 @@ const SITE_EMAIL = process.env.VITE_SITE_EMAIL || env.VITE_SITE_EMAIL;
 
 if (!SITE_URL) {
   console.error('VITE_SITE_URL environment variable is required');
+  console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('VITE') || k.includes('SITE')).join(', ') || 'none');
+  console.error('process.env.VITE_SITE_URL:', process.env.VITE_SITE_URL);
+  console.error('env.VITE_SITE_URL:', env.VITE_SITE_URL);
   process.exit(1);
 }
 
 if (!SITE_EMAIL) {
   console.error('VITE_SITE_EMAIL environment variable is required');
+  console.error('process.env.VITE_SITE_EMAIL:', process.env.VITE_SITE_EMAIL);
+  console.error('env.VITE_SITE_EMAIL:', env.VITE_SITE_EMAIL);
   process.exit(1);
 }
 const BLOG_TITLE = 'React Native Land';
