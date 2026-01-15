@@ -1,7 +1,7 @@
-import { fileURLToPath, URL } from 'node:url';
 import mdx from '@mdx-js/rollup';
 import rehypeShiki from '@shikijs/rehype';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -33,8 +33,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Core React - loaded on every page
+          'react-vendor': ['react', 'react-dom'],
+          // Router - loaded on every page but separate chunk
+          router: ['react-router-dom'],
+          // Head management - loaded on every page
           head: ['@unhead/react'],
+          // Syntax highlighting - only needed for post pages
           shiki: ['shiki', '@shikijs/rehype'],
         },
       },
