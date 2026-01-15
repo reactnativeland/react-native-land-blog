@@ -189,10 +189,10 @@ function Post() {
         // Open Graph
         { property: 'og:type', content: 'article' },
         { property: 'og:url', content: postUrl },
-        { property: 'og:title', content: `${post.title} - ${t('site.title')}` },
+        { property: 'og:title', content: `${post.title} - ${config.siteName}` },
         { property: 'og:description', content: metaDescription },
         { property: 'og:image', content: `${config.siteUrl}/logo.jpg` },
-        { property: 'og:site_name', content: t('site.title') },
+        { property: 'og:site_name', content: config.siteName },
         { property: 'og:locale', content: langUtils.ogLocale },
         {
           property: 'og:locale:alternate',
@@ -208,7 +208,7 @@ function Post() {
         { name: 'twitter:url', content: postUrl },
         {
           name: 'twitter:title',
-          content: `${post.title} - ${t('site.title')}`,
+          content: `${post.title} - ${config.siteName}`,
         },
         { name: 'twitter:description', content: metaDescription },
         { name: 'twitter:image', content: `${config.siteUrl}/logo.jpg` },
@@ -246,7 +246,7 @@ function Post() {
       });
 
       return {
-        title: `${post.title} - ${t('site.title')}`,
+        title: `${post.title} - ${config.siteName}`,
         titleTemplate: '%s',
         meta: metaTags,
         link: linkTags,

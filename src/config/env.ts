@@ -8,4 +8,5 @@ export const config = {
   siteEmail: import.meta.env.VITE_SITE_EMAIL || 'rick@reactnative.land',
   githubUrl:
     import.meta.env.VITE_GITHUB_URL || 'https://github.com/reactnativeland',
+  siteName: 'React Native Land',
 } as const;

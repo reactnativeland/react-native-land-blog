@@ -76,6 +76,10 @@ function Layout({ children }: LayoutProps) {
 
   useHead(
     useMemo(() => {
+      if (isPostPage) {
+        return { title: null };
+      }
+
       const metaTags = [
         { name: 'description', content: t('site.description') },
         {
@@ -132,7 +136,7 @@ function Layout({ children }: LayoutProps) {
       ];
 
       return {
-        title: isPostPage ? undefined : t('site.title'),
+        title: t('site.title'),
         meta: metaTags,
         link: linkTags,
         script: structuredData.map((data, index) => ({
