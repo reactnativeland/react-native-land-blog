@@ -6,6 +6,7 @@ import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   base: '/',
@@ -72,6 +73,82 @@ export default defineConfig({
           },
         ],
       ],
+    }),
+    VitePWA({
+      registerType: 'prompt',
+      includeAssets: [
+        'favicon.svg',
+        'favicon.png',
+        'logo.png',
+        'icon-192.png',
+        'icon-512.png',
+      ],
+      manifest: {
+        name: 'React Native Land',
+        short_name: 'React Native Land',
+        description: 'A blog about React Native development.',
+        theme_color: '#121212',
+        background_color: '#ffffff',
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        start_url: '/',
+        icons: [
+          {
+            src: '/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/logo.png',
+            sizes: '1024x1024',
+            type: 'image/png',
+            purpose: 'any',
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,json,xml}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.bunny\.net\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/static\.cloudflareinsights\.com\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'cloudflare-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24, // 1 day
+              },
+            },
+          },
+        ],
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],
+      },
+      devOptions: {
+        enabled: true, // Enable PWA in dev mode for testing
+        type: 'module',
+      },
     }),
     visualizer({
       filename: 'dist/stats.html',

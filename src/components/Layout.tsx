@@ -77,7 +77,7 @@ function Layout({ children }: LayoutProps) {
   useHead(
     useMemo(() => {
       if (isPostPage) {
-        return { title: null };
+        return {};
       }
 
       const metaTags = [

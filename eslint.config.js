@@ -7,6 +7,7 @@ export default tseslint.config(
   {
     ignores: [
       'dist/**',
+      'dev-dist/**',
       'node_modules/**',
       '*.config.js',
       'scripts/**',
@@ -51,7 +52,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.sw.js', '**/sw.js', 'public/sw.js'],
+    files: ['**/*.sw.js', '**/sw.js', 'dist/sw.js'],
     languageOptions: {
       globals: {
         self: 'readonly',
@@ -62,6 +63,7 @@ export default tseslint.config(
         Cache: 'readonly',
         Request: 'readonly',
         Response: 'readonly',
+        workbox: 'readonly',
       },
     },
     rules: {

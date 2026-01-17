@@ -247,7 +247,6 @@ function Post() {
 
       return {
         title: `${post.title} - ${config.siteName}`,
-        titleTemplate: '%s',
         meta: metaTags,
         link: linkTags,
         script: articleStructuredData

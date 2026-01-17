@@ -1,100 +1,54 @@
-const isLocalhost = Boolean(
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '[::1]' ||
-  window.location.hostname.match(
-    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-  )
-);
+import { registerSW } from 'virtual:pwa-register';
+
+interface WindowWithUninstallPWA extends Window {
+  uninstallPWA?: () => Promise<void>;
+  updateSW?: () => Promise<void>;
+}
 
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
-interface WindowWithUninstallPWA extends Window {
-  uninstallPWA?: () => Promise<void>;
-}
-
 export function register(config?: Config) {
   if ('serviceWorker' in navigator) {
-    const publicUrl = new URL(
-      import.meta.env.BASE_URL || '/',
-      window.location.href
-    );
-    if (publicUrl.origin !== window.location.origin) {
-      return;
-    }
-
-    window.addEventListener('load', () => {
-      const swUrl = `${import.meta.env.BASE_URL || '/'}sw.js`;
-
-      if (isLocalhost) {
-        checkValidServiceWorker(swUrl, config);
-        navigator.serviceWorker.ready.then(() => {
-          console.log('Service worker is ready.');
-        });
-      } else {
-        registerValidSW(swUrl, config);
-      }
-    });
-  }
-}
-
-function registerValidSW(swUrl: string, config?: Config) {
-  navigator.serviceWorker
-    .register(swUrl)
-    .then((registration) => {
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        if (installingWorker == null) {
-          return;
-        }
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              console.log('New content is available; please refresh.');
-              if (config && config.onUpdate) {
-                config.onUpdate(registration);
-              }
-            } else {
-              console.log('Content cached for offline use.');
-              if (config && config.onSuccess) {
-                config.onSuccess(registration);
-              }
-            }
+    const updateSW = registerSW({
+      immediate: true,
+      onRegistered(registration: ServiceWorkerRegistration | undefined) {
+        if (registration) {
+          console.log('Service worker registered successfully');
+          if (config?.onSuccess) {
+            config.onSuccess(registration);
           }
-        };
-      };
-    })
-    .catch((error) => {
-      console.error('Error during service worker registration:', error);
-    });
-}
-
-function checkValidServiceWorker(swUrl: string, config?: Config) {
-  fetch(swUrl, {
-    headers: { 'Service-Worker': 'script' },
-  })
-    .then((response) => {
-      const contentType = response.headers.get('content-type');
-      if (
-        response.status === 404 ||
-        (contentType != null && contentType.indexOf('javascript') === -1)
-      ) {
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.unregister().then(() => {
-            window.location.reload();
+        }
+      },
+      onRegisterError(error: Error) {
+        console.error('Error during service worker registration:', error);
+      },
+      onNeedRefresh() {
+        console.log('New content is available; please refresh.');
+        if (config?.onUpdate) {
+          navigator.serviceWorker.ready.then((registration) => {
+            if (config.onUpdate) {
+              config.onUpdate(registration);
+            }
           });
+        }
+      },
+      onOfflineReady() {
+        console.log('Content cached for offline use.');
+        navigator.serviceWorker.ready.then((registration) => {
+          if (config?.onSuccess) {
+            config.onSuccess(registration);
+          }
         });
-      } else {
-        registerValidSW(swUrl, config);
-      }
-    })
-    .catch(() => {
-      console.log(
-        'No internet connection found. App is running in offline mode.'
-      );
+      },
     });
+    if (typeof window !== 'undefined') {
+      const win = window as WindowWithUninstallPWA;
+      win.updateSW = updateSW;
+    }
+  }
 }
 
 export function unregister() {
@@ -109,10 +63,6 @@ export function unregister() {
   }
 }
 
-/**
- * Completely remove PWA: unregister service worker and clear all caches
- * Run this in browser console: window.uninstallPWA()
- */
 export function exposeUninstallFunction(): void {
   if (typeof window === 'undefined') {
     return;
@@ -124,8 +74,7 @@ export function exposeUninstallFunction(): void {
 
     if ('serviceWorker' in navigator) {
       try {
-        const registrations =
-          await navigator.serviceWorker.getRegistrations();
+        const registrations = await navigator.serviceWorker.getRegistrations();
         for (const registration of registrations) {
           await registration.unregister();
           console.log('Service worker unregistered');
