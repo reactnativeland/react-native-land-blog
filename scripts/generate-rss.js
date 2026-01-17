@@ -129,13 +129,13 @@ if (!fs.existsSync(publicDir)) {
 }
 
 // Generate RSS 2.0 feed
-fs.writeFileSync(path.join(publicDir, 'rss.xml'), feed.rss2());
+fs.writeFileSync(path.join(publicDir, 'rss.xml'), feed.rss2() + '\n');
 console.log('✅ RSS feed generated at public/rss.xml');
 
 // Generate Atom feed
-fs.writeFileSync(path.join(publicDir, 'atom.xml'), feed.atom1());
+fs.writeFileSync(path.join(publicDir, 'atom.xml'), feed.atom1() + '\n');
 console.log('✅ Atom feed generated at public/atom.xml');
 
 // Generate JSON feed
-fs.writeFileSync(path.join(publicDir, 'feed.json'), feed.json1());
+fs.writeFileSync(path.join(publicDir, 'feed.json'), feed.json1() + '\n');
 console.log('✅ JSON feed generated at public/feed.json');

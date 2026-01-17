@@ -138,6 +138,6 @@ if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Write sitemap
-fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
+// Write sitemap (add trailing newline to match Prettier formatting)
+fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap + '\n');
 console.log('✅ Sitemap generated at public/sitemap.xml');
