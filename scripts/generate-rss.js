@@ -137,5 +137,8 @@ fs.writeFileSync(path.join(publicDir, 'atom.xml'), feed.atom1() + '\n');
 console.log('✅ Atom feed generated at public/atom.xml');
 
 // Generate JSON feed
-fs.writeFileSync(path.join(publicDir, 'feed.json'), feed.json1() + '\n');
+// Parse and reformat with 2-space indentation to match Prettier
+const jsonFeed = JSON.parse(feed.json1());
+const formattedJson = JSON.stringify(jsonFeed, null, 2) + '\n';
+fs.writeFileSync(path.join(publicDir, 'feed.json'), formattedJson);
 console.log('✅ JSON feed generated at public/feed.json');
