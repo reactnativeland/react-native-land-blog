@@ -148,6 +148,7 @@ export default defineConfig({
       devOptions: {
         enabled: true, // Enable PWA in dev mode for testing
         type: 'module',
+        suppressWarnings: true, // Silence glob pattern warnings in dev mode
       },
     }),
     visualizer({

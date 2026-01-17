@@ -1,5 +1,14 @@
 /* eslint-disable react-hooks/static-components */
+import { config } from '@config/env';
+import { useTranslation } from '@i18n';
 import { useHead } from '@unhead/react';
+import {
+  DEFAULT_LANGUAGE,
+  formatDate,
+  getLanguageUtils,
+  normalizeLanguage,
+  toFileSuffix,
+} from '@utils';
 import {
   ComponentType,
   lazy,
@@ -8,16 +17,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useTranslation } from '@i18n';
 import { Link, useParams } from 'react-router-dom';
-import {
-  formatDate,
-  DEFAULT_LANGUAGE,
-  getLanguageUtils,
-  normalizeLanguage,
-  toFileSuffix,
-} from '@utils';
-import { config } from '@config/env';
 import './Post.css';
 
 interface PostData {
@@ -247,6 +247,7 @@ function Post() {
 
       return {
         title: `${post.title} - ${config.siteName}`,
+        titleTemplate: '%s',
         meta: metaTags,
         link: linkTags,
         script: articleStructuredData
