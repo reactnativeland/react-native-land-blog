@@ -33,15 +33,40 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV === 'development',
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Core React - loaded on every page
-          'react-vendor': ['react', 'react-dom'],
-          // Router - loaded on every page but separate chunk
-          router: ['react-router-dom'],
-          // Head management - loaded on every page
-          head: ['@unhead/react'],
-          // Syntax highlighting - only needed for post pages
-          shiki: ['shiki', '@shikijs/rehype'],
+        manualChunks(id) {
+          // Core React
+          if (id.includes('node_modules/react-dom')) {
+            return 'react-dom';
+          }
+          if (id.includes('node_modules/react/')) {
+            return 'react';
+          }
+          // Router
+          if (id.includes('node_modules/react-router')) {
+            return 'router';
+          }
+          // Head management
+          if (id.includes('node_modules/@unhead')) {
+            return 'head';
+          }
+          // Shiki core and themes
+          if (
+            id.includes('node_modules/shiki') ||
+            id.includes('node_modules/@shikijs')
+          ) {
+            return 'shiki';
+          }
+          // MDX runtime
+          if (
+            id.includes('node_modules/@mdx-js') ||
+            id.includes('node_modules/mdx')
+          ) {
+            return 'mdx';
+          }
+          // Workbox for PWA
+          if (id.includes('node_modules/workbox')) {
+            return 'workbox';
+          }
         },
       },
     },
