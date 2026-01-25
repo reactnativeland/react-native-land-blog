@@ -7,6 +7,20 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+function isMobileDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  // Check for touch capability and mobile screen width
+  const hasTouchScreen =
+    'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isMobileWidth = window.innerWidth <= 768;
+  // Also check user agent for mobile devices
+  const mobileUserAgent =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  return (hasTouchScreen && isMobileWidth) || mobileUserAgent;
+}
+
 export function InstallPrompt() {
   const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] =
@@ -20,6 +34,14 @@ export function InstallPrompt() {
   );
 
   useEffect(() => {
+    // Only show on mobile devices
+    if (!isMobileDevice()) {
+      if (import.meta.env.DEV) {
+        console.log('[InstallPrompt] Not a mobile device, skipping prompt');
+      }
+      return;
+    }
+
     // Check if app is already installed
     const isStandalone = window.matchMedia(
       '(display-mode: standalone)'
