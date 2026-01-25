@@ -89,9 +89,13 @@ logs
 
 # Package manager
 .pnpm-store/
+.pnpm-approve-builds
 
 # Vite
 .vite/
 
 # Walkthrough
 walkthrough
+
+# AI
+.claude
