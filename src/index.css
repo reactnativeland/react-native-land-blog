@@ -16,7 +16,6 @@ html.light {
   color-scheme: light;
 }
 
-/* Modern font family */
 body {
   font-family:
     'Outfit',
@@ -36,24 +35,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Reset default margins for consistent alignment */
 * {
   box-sizing: border-box;
 }
 
-article,
+/* Optical alignment - add spacing to content to match title's natural spacing */
 article h1,
+article h2,
 article time,
-article > div {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-/* Prose content alignment */
-.prose {
-  max-width: none;
-}
-
-.prose > :first-child {
-  margin-top: 0;
+article p,
+.prose p,
+.prose h2,
+.prose h3,
+.prose ul,
+.prose ol,
+.prose pre,
+.prose blockquote {
+  margin-left: 4px;
 }
