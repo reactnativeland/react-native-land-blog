@@ -2,8 +2,8 @@
 
 This file provides guidance to AI's when working with code in this repository.
 
-Don’t commit changes on your own. I will review and commit them.
-Don't use emojis.
+- Don’t commit changes on your own. I will review and commit them.
+- Don't use emojis.
 
 ## Commands
 
